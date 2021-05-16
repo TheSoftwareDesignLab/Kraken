@@ -5,9 +5,14 @@
   "main": "lib/index.js",
   "types": "lib",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "build": "tsc -p ."
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^9.1.1",
+    "webdriverio": "^7.5.7"
+  }
 }
