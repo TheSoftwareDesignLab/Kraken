@@ -1,21 +1,22 @@
 const { remote } = require('webdriverio');
 const { exec } = require("child_process");
+const portfinder = require('portfinder');
 
 export class MobileProcess {
   deviceId: string;
-  port: number;
+  port: any;
   proc: any;
   private client: any;
   private defaultClientTimout: number;
   private clientStartingTime: any;
 
-  constructor(deviceId: string, port: number) {
+  constructor(deviceId: string) {
     this.deviceId = deviceId;
-    this.port = port;
     this.defaultClientTimout = 60000;
   }
 
   async start() {
+    this.port = await this.availablePort();
     this.proc = exec(`appium -p ${this.port}`);
     this.proc.stdout.on('data', this.onStdout.bind(this));
     this.proc.stderr.on('data', this.onStderr.bind(this));
@@ -29,10 +30,10 @@ export class MobileProcess {
   }
 
   // Helpers
-  generaOpts(udid: string, port: number) {
+  generaOpts(udid: string) {
       return {
         path: '/wd/hub',
-        port: port,
+        port: this.port,
         capabilities: {
           platformName: "Android",
           deviceName: "Android Emulator",
@@ -45,12 +46,16 @@ export class MobileProcess {
       }
   };
 
+  async availablePort() {
+    portfinder.basePort = 8000;
+    portfinder.highestPort = 8100;
+    return await portfinder.getPortPromise();
+  }
+
   private async startProcess() {
     console.log(`Starting process on device: ${this.deviceId}`);
     this.client = await remote(
-      this.generaOpts(
-        this.deviceId, this.port
-      )
+      this.generaOpts(this.deviceId)
     );
   }
 
