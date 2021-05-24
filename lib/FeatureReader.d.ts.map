@@ -1,0 +1,1 @@
+{"version":3,"file":"FeatureReader.d.ts","sourceRoot":"","sources":["../src/FeatureReader.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAE5C,qBAAa,aAAa;IACxB,OAAO,CAAC,MAAM,CAAC,iBAAiB,CAAgB;IAChD,OAAO,CAAC,UAAU,CAAa;IAE/B,OAAO;WAIO,QAAQ,IAAI,aAAa;IAQvC,eAAe,IAAI,WAAW,EAAE;CAgBjC"}
