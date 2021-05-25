@@ -9,7 +9,6 @@ export class FileHelper {
     if (!FileHelper.singletonInstance) {
         FileHelper.singletonInstance = new FileHelper();
     }
-
     return FileHelper.singletonInstance;
   }
 
