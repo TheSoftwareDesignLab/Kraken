@@ -1,4 +1,4 @@
-import { FileHelper } from './FileHelper';
+import { FileHelper } from '../utils/FileHelper';
 import { FeatureFile } from './FeatureFile';
 
 export class FeatureReader {

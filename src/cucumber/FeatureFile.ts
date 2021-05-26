@@ -32,10 +32,28 @@ export class FeatureFile {
 
     return userTags.map((userTag) => {
       return {
-        user_id: userTag.split('@user').join(''),
-        system_type: systemTags.shift() || '@mobile'
+        userId: userTag.split('@user').join(''),
+        systemType: systemTags.shift() || '@mobile'
       }
     });
+  }
+
+  numberOfRequiredMobileDevices(): number {
+    let tags: string[] = this.systemTags();
+    return tags.filter((tag) => {
+      return tag === '@mobile';
+    }).length;
+  }
+
+  numberOfRequiredWebDevices(): number {
+    let tags: string[] = this.systemTags();
+    return tags.filter((tag) => {
+      return tag === '@web';
+    }).length;
+  }
+
+  numberOfRequiredDevices(): number {
+    return this.userTags().length;
   }
 
   private userTags(): string[] {

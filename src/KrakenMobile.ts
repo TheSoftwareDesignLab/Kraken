@@ -1,6 +1,6 @@
 import { TestScenario } from './TestScenario';
-import { FeatureReader } from './FeatureReader';
-import { FeatureFile } from './FeatureFile';
+import { FeatureReader } from './cucumber/FeatureReader';
+import { FeatureFile } from './cucumber/FeatureFile';
 
 export class KrakenMobile {
   private scenariosQueue: TestScenario[];

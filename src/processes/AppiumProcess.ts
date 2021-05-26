@@ -2,7 +2,7 @@ const { remote } = require('webdriverio');
 const { exec } = require("child_process");
 const portfinder = require('portfinder');
 
-export class MobileProcess {
+export class AppiumProcess {
   deviceId: string;
   port: any;
   proc: any;
@@ -83,7 +83,6 @@ export class MobileProcess {
   private onStderr(data: any) {
     let dataText: string = data.toString();
     console.log(`Error starting process on device: ${this.deviceId}`);
-    console.log(dataText);
     this.proc.kill('SIGINT');
   }
 }

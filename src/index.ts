@@ -1,12 +1,12 @@
-import { MobileProcess } from './mobile/MobileProcess';
-import { FeatureReader } from './FeatureReader';
+import { AppiumProcess } from './processes/AppiumProcess';
+import { FeatureReader } from './cucumber/FeatureReader';
 var portfinder = require('portfinder');
 
 //(async () => {
-//  let firstProcess: MobileProcess = new MobileProcess('93c6af52');
+//  let firstProcess: AppiumProcess = new AppiumProcess('93c6af52');
 //  let firstClient = await firstProcess.start();
 //
-//  let secondProcess: MobileProcess = new MobileProcess('emulator-5554');
+//  let secondProcess: AppiumProcess = new AppiumProcess('emulator-5554');
 //  let secondClient = await secondProcess.start();
 //
 //  await new Promise(r => setTimeout(r, 5000));

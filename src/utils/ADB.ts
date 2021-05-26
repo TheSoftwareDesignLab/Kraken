@@ -1,5 +1,5 @@
 const { execSync } = require("child_process");
-import { AndroidDevice } from './AndroidDevice';
+import { AndroidDevice } from '../devices/AndroidDevice';
 
 export class ADB {
   private static singletonInstance: ADB;
