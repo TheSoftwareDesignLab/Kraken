@@ -1,10 +1,11 @@
 {
-  "name": "Kraken",
+  "name": "kraken-node",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "types": "lib",
   "bin": {
+    "kraken-node": "./bin/kraken-node",
     "kraken-cucumber": "./bin/cucumber"
   },
   "scripts": {
