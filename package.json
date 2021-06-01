@@ -4,6 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "types": "lib",
+  "bin": {
+    "kraken-cucumber": "./bin/cucumber"
+  },
   "scripts": {
     "start": "ts-node src/index.ts",
     "example": "ts-node example/index.ts",

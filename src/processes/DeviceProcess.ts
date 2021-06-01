@@ -1,6 +1,7 @@
 import { Device } from '../devices/Device';
 import { TestScenario } from '../TestScenario';
 import { DeviceProcessInterface } from '../interfaces/DeviceProcessInterface';
+const { exec, spawn } = require("child_process");
 
 export abstract class DeviceProcess implements DeviceProcessInterface {
   id: number;
@@ -13,7 +14,18 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     this.testScenario = testScenario;
   }
 
-  abstract run(): void;
+  async run() {
+    let args = [
+      '-f', 'pretty',
+      '--tags', `@user${this.id}`,
+      '--world-parameters', "{\"device_id\": \"Test\"}"
+    ]
+    const cucumberProcess = spawn(
+      'kraken-cucumber', args, {
+        stdio: 'inherit'
+      }
+    );
+  };
 
   handleCucumberResult(succeeded:any) {
     if (!succeeded) {

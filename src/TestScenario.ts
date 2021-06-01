@@ -19,6 +19,8 @@ export class TestScenario {
   public run() {
     let devices: Device[] = this.sampleDevices();
     devices.forEach((device: AndroidDevice, index: number) => {
+      if(!device) { return; }
+
       this.startProcessForUserIdInDevice(index + 1, device);
     });
   }
@@ -44,14 +46,12 @@ export class TestScenario {
   }
 
   private sampleDevices(): AndroidDevice[] {
-    let sample: Device[] = [];
+    let sample: any[] = [];
     let mobileDevices: AndroidDevice[] = this.sample_mobile_devices();
     let webDevices: WebDevice[] = this.sample_web_devices();
     this.featureFile.requiredDevicesInfo().forEach((deviceInfo) => {
       let device = deviceInfo.systemType === '@web' ? webDevices.shift() : mobileDevices.shift();
-      if(device) {
-        sample.push(device);
-      }
+      sample.push(device);
     });
     return sample;
   }
