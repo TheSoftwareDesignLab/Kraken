@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "types": "lib",
   "bin": {
-    "kraken-node": "./bin/kraken-node",
-    "kraken-cucumber": "./bin/cucumber"
+    "kraken-node": "./bin/kraken-node"
   },
   "scripts": {
     "start": "ts-node src/index.ts",

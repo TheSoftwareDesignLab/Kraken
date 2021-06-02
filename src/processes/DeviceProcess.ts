@@ -16,7 +16,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
 
   async run() {
     let args = [
-      '../../bin/kraken-node',
+      `${__dirname}/../../bin/cucumber`,
       '-f', 'pretty',
       '--tags', `@user${this.id}`,
       '--world-parameters', "{\"device_id\": \"Test\"}"
