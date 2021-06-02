@@ -16,12 +16,13 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
 
   async run() {
     let args = [
+      '../../bin/kraken-node',
       '-f', 'pretty',
       '--tags', `@user${this.id}`,
       '--world-parameters', "{\"device_id\": \"Test\"}"
     ]
     const cucumberProcess = spawn(
-      'kraken-cucumber', args, {
+      'node', args, {
         stdio: 'inherit'
       }
     );
