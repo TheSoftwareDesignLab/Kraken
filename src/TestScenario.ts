@@ -56,8 +56,9 @@ export class TestScenario {
     let mobileDevices: AndroidDevice[] = this.sample_mobile_devices();
     let webDevices: WebDevice[] = this.sample_web_devices();
     this.featureFile.requiredDevicesInfo().forEach((deviceInfo) => {
+      let userId: number = Number(deviceInfo.userId); 
       let device = deviceInfo.systemType === '@web' ? webDevices.shift() : mobileDevices.shift();
-      sample.push(device);
+      sample[userId - 1] = device;
     });
     return sample;
   }
