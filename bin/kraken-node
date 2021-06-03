@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-let action = process.argv[2]
+let action = process.argv[2];
 switch(action) {
     case 'gen': {
         const { Scaffolder } = require('../lib/utils/Scaffolder');
         let util = new Scaffolder();
         util.copyFeaturesStructureToCurrentDirectory();
-        console.log('Generated features directory');
         break;
     }
     case 'run': {

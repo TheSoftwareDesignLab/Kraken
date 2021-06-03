@@ -17,6 +17,12 @@ export class TestScenario {
   }
 
   public run() {
+    if (!this.featureFile.has_right_syntax()) {
+      throw new Error(
+        `ERROR: Verify feature file ${this.featureFile.filePath} has one unique @user tag for each scenario`
+        );
+    }
+
     let devices: Device[] = this.sampleDevices();
     devices.forEach((device: AndroidDevice, index: number) => {
       if(!device) { return; }
