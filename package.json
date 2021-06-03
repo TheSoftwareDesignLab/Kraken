@@ -22,5 +22,7 @@
     "ts-node": "^9.1.1",
     "webdriverio": "^7.5.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.11"
+  }
 }

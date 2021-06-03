@@ -1,5 +1,21 @@
 #!/usr/bin/env node
 
-const { KrakenMobile } = require('../lib/KrakenMobile');
-let kraken = new KrakenMobile();
-kraken.start();
+let action = process.argv[2]
+switch(action) {
+    case 'gen': {
+        const { Scaffolder } = require('../lib/utils/Scaffolder');
+        let util = new Scaffolder();
+        util.copyFeaturesStructureToCurrentDirectory();
+        console.log('Generated features directory');
+        break;
+    }
+    case 'run': {
+        const { KrakenMobile } = require('../lib/KrakenMobile');
+        let kraken = new KrakenMobile();
+        kraken.start();
+        break;
+    }
+    default: {
+        throw new Error('ERROR: Command not supported');
+    }
+}

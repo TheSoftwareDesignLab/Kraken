@@ -1,4 +1,5 @@
-const fs = require("fs")
+import fs from "fs";
+import fse from "fs-extra";
 
 export class FileHelper {
   private static singletonInstance: FileHelper;
@@ -25,5 +26,21 @@ export class FileHelper {
     return filesInFeaturePath.filter((fileName: string) => {
       return fileName.match(/\.feature$/);
     });
+  }
+
+  copyFolderToPath(folderPath: string, destinationPath: string) {
+    this.createFolderIfDoesNotExist(destinationPath);
+
+    fse.copy(folderPath, destinationPath, (err: any)  => {
+      if (err) {
+        throw err;
+      }
+    });
+  }
+
+  createFolderIfDoesNotExist(path: string) {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
   }
 }
