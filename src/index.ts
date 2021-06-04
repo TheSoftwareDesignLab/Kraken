@@ -1,12 +1,11 @@
-import { AppiumProcess } from './processes/AppiumProcess';
-import { FeatureReader } from './cucumber/FeatureReader';
-var portfinder = require('portfinder');
+import { MobileClient } from './clients/MobileClient';
+import { WebClient } from './clients/WebClient';
 
 //(async () => {
-//  let firstProcess: AppiumProcess = new AppiumProcess('93c6af52');
+//  let firstProcess: MobileClient = new MobileClient('93c6af52');
 //  let firstClient = await firstProcess.start();
 //
-//  let secondProcess: AppiumProcess = new AppiumProcess('emulator-5554');
+//  let secondProcess: MobileClient = new MobileClient('emulator-5554');
 //  let secondClient = await secondProcess.start();
 //
 //  await new Promise(r => setTimeout(r, 5000));
@@ -15,5 +14,10 @@ var portfinder = require('portfinder');
 //  secondProcess.stop();
 //})();
 
-let algo: FeatureReader = FeatureReader.instance();
-algo.getFeatureFiles();
+(async () => {
+    let firstProcess: WebClient = new WebClient('chrome');
+    let firstClient = await firstProcess.start();
+    await firstClient.url('https://www.google.com');
+    await new Promise(r => setTimeout(r, 5000));
+    firstProcess.stop();
+})();

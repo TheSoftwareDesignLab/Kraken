@@ -1,8 +1,9 @@
-const { remote } = require('webdriverio');
-const { exec } = require("child_process");
-const portfinder = require('portfinder');
+import { remote } from 'webdriverio';
+import { exec } from "child_process";
+import portfinder from 'portfinder';
+import { ClientInterface } from '../interfaces/ClientInterface';
 
-export class AppiumProcess {
+export class MobileClient implements ClientInterface {
   deviceId: string;
   port: any;
   proc: any;
