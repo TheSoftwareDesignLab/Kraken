@@ -1,6 +1,6 @@
 import { remote } from 'webdriverio';
 import { exec } from "child_process";
-import portfinder from 'portfinder';
+const portfinder = require('portfinder');
 import { ClientInterface } from '../interfaces/ClientInterface';
 
 export class MobileClient implements ClientInterface {
