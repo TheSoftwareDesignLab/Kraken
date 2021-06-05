@@ -4,7 +4,7 @@ import { AndroidDevice } from './devices/AndroidDevice';
 import { WebDevice } from './devices/WebDevice';
 import { Device } from './devices/Device';
 import { exec, execSync } from "child_process";
-import { MobileProcess } from './processes/MobileProcess';
+import { AndroidProcess } from './processes/AndroidProcess';
 import { WebProcess } from './processes/WebProcess';
 import { DeviceProcess } from './processes/DeviceProcess';
 
@@ -32,7 +32,7 @@ export class TestScenario {
 
   startProcessForUserIdInDevice(userId: number, device: Device) {
     if(device instanceof AndroidDevice) {
-      this.startMobileProcessForUserIdInDevice(userId, device);
+      this.startAndroidProcessForUserIdInDevice(userId, device);
     } else if(device instanceof WebDevice) {
       this.startWebProcessForUserIdInDevice(userId, device);
     } else {
@@ -40,8 +40,8 @@ export class TestScenario {
     }
   }
 
-  startMobileProcessForUserIdInDevice(userId: number, device: Device) {
-    let process: MobileProcess = new MobileProcess(userId, device, this);
+  startAndroidProcessForUserIdInDevice(userId: number, device: Device) {
+    let process: AndroidProcess = new AndroidProcess(userId, device, this);
     process.run();
   }
 

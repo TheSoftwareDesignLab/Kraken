@@ -1,9 +1,9 @@
 var { After, Before } = require('@cucumber/cucumber');
-const { MobileProcess } = require('../../../lib/processes/MobileProcess');
+const { AndroidProcess } = require('../../../lib/processes/AndroidProcess');
 
 Before(async function() {
   //console.log(this.deviceId);
-  //this.deviceProcess = new MobileProcess('emulator-5554');
+  //this.deviceProcess = new AndroidProcess('emulator-5554');
   //this.driver = await this.deviceProcess.start();
 })
 

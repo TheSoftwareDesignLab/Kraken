@@ -1,8 +1,8 @@
-import { MobileClient } from './clients/MobileClient';
+import { AndroidClient } from './clients/AndroidClient';
 import { WebClient } from './clients/WebClient';
 
 (async () => {
-    let firstProcess: MobileClient = new MobileClient('emulator-5554');
+    let firstProcess: AndroidClient = new AndroidClient('emulator-5554');
     let firstClient = await firstProcess.start();
 
     let secondProcess: WebClient = new WebClient('chrome');
@@ -15,10 +15,10 @@ import { WebClient } from './clients/WebClient';
 })();
 
 //(async () => {
-//  let firstProcess: MobileClient = new MobileClient('93c6af52');
+//  let firstProcess: AndroidClient = new AndroidClient('93c6af52');
 //  let firstClient = await firstProcess.start();
 //
-//  let secondProcess: MobileClient = new MobileClient('emulator-5554');
+//  let secondProcess: AndroidClient = new AndroidClient('emulator-5554');
 //  let secondClient = await secondProcess.start();
 //
 //  await new Promise(r => setTimeout(r, 5000));

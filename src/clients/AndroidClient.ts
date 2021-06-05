@@ -3,7 +3,7 @@ import { exec } from "child_process";
 const portfinder = require('portfinder');
 import { ClientInterface } from '../interfaces/ClientInterface';
 
-export class MobileClient implements ClientInterface {
+export class AndroidClient implements ClientInterface {
   deviceId: string;
   port: any;
   proc: any;
