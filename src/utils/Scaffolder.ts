@@ -6,7 +6,7 @@ export class Scaffolder {
     constructor() {}
 
     copyFeaturesStructureToCurrentDirectory() {
-        if (FileHelper.instance().directoryPathExists(`${process.cwd()}/features`)) {
+        if (FileHelper.instance().pathExists(`${process.cwd()}/features`)) {
             throw new Error('ERROR: Features directory already exists'); 
         }
 

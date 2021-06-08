@@ -20,7 +20,7 @@ export class FeatureReader {
   getFeatureFiles(): FeatureFile[] {
     let currentDirectoryPath = process.cwd();
     let expectedFeaturesPath = `${currentDirectoryPath}/features`;
-    if (!this.fileHelper.directoryPathExists(expectedFeaturesPath)) {
+    if (!this.fileHelper.pathExists(expectedFeaturesPath)) {
       throw new Error(
         `ERROR: File or directory ${expectedFeaturesPath} does not exist`
       );

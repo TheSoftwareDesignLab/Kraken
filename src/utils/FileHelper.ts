@@ -1,5 +1,6 @@
 import fs from "fs";
 import fse from "fs-extra";
+import glob from "glob";
 
 export class FileHelper {
   private static singletonInstance: FileHelper;
@@ -13,8 +14,30 @@ export class FileHelper {
     return FileHelper.singletonInstance;
   }
 
-  directoryPathExists(path: string): boolean {
+  pathExists(path: string): boolean {
     return fs.existsSync(path);
+  }
+
+  deleteFilesWithGlobPattern(globPattern: string) {
+    glob(globPattern, {}, (err: any, files: any) => {
+      if(err) {
+        throw err;
+      }
+      
+      files.forEach((filePath: any) => {
+        this.deleteFileInPath(filePath);
+      });
+    });
+  }
+
+  deleteFileInPath(path: string) {
+    fs.unlinkSync(path);
+  }
+
+  deleteFileInPathIfExists(path: string) {
+    if(this.pathExists(path)) {
+      this.deleteFileInPath(path);
+    }
   }
 
   filesInPath(path: string): string[] {
@@ -42,5 +65,18 @@ export class FileHelper {
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path, { recursive: true });
     }
+  }
+
+  createFile(path: string) {
+    fs.openSync(path, 'w');
+  }
+
+  contentOfFile(path: string): any {
+    const contents = fs.readFileSync(path, 'utf8');
+    return contents;
+  }
+
+  appendTextToFile(text: string, path: string) {
+    fs.appendFileSync(path, `${text}\n`);
   }
 }

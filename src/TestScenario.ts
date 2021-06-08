@@ -7,12 +7,17 @@ import { exec, execSync } from "child_process";
 import { AndroidProcess } from './processes/AndroidProcess';
 import { WebProcess } from './processes/WebProcess';
 import { DeviceProcess } from './processes/DeviceProcess';
+import * as Constants from './utils/Constants';
+import { FileHelper } from './utils/FileHelper';
+import { Reporter } from './reports/Reporter';
 
 export class TestScenario {
   featureFile: FeatureFile;
+  reporter: Reporter;
 
-  constructor(featureFile: FeatureFile) {
+  constructor(featureFile: FeatureFile) { 
     this.featureFile = featureFile;
+    this.reporter = new Reporter(this);
   }
 
   public run() {
@@ -22,12 +27,45 @@ export class TestScenario {
         );
     }
 
+    this.beforeExecute();
+    this.execute();
+    this.afterExecute();
+  }
+
+  private beforeExecute() {
+    this.deleteAllInboxes();
+    this.deleteSupportFilesAndDirectories();
+  }
+
+  private execute() {
     let devices: Device[] = this.sampleDevices();
     devices.forEach((device: AndroidDevice, index: number) => {
-      if(!device) { return; }
+      if (!device) { return; }
 
+      device.createInbox();
+      device.readSignal('buenas1');
+      device.writeSignal('buenas1');
+      //console.log(device.inboxLastSignal());
+      device.writeSignal('buenas2');
+      //console.log(device.inboxLastSignal());
       this.startProcessForUserIdInDevice(index + 1, device);
     });
+  }
+
+  private afterExecute() {
+    this.deleteSupportFilesAndDirectories();
+  }
+
+  private deleteSupportFilesAndDirectories() {
+    FileHelper.instance().deleteFileInPathIfExists(Constants.DIRECTORY_PATH);
+    FileHelper.instance().deleteFileInPathIfExists(Constants.DICTIONARY_PATH);
+    for (let filePath in Constants.PROCESS_STATE_FILE_PATH) {
+      FileHelper.instance().deleteFileInPathIfExists(filePath);
+    }
+  }
+
+  private deleteAllInboxes() {
+    FileHelper.instance().deleteFilesWithGlobPattern(`${process.cwd()}/.*_${Constants.INBOX_FILE_NAME}`);
   }
 
   startProcessForUserIdInDevice(userId: number, device: Device) {
