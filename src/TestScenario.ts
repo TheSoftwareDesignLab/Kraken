@@ -42,12 +42,6 @@ export class TestScenario {
     devices.forEach((device: AndroidDevice, index: number) => {
       if (!device) { return; }
 
-      device.createInbox();
-      device.readSignal('buenas1');
-      device.writeSignal('buenas1');
-      //console.log(device.inboxLastSignal());
-      device.writeSignal('buenas2');
-      //console.log(device.inboxLastSignal());
       this.startProcessForUserIdInDevice(index + 1, device);
     });
   }

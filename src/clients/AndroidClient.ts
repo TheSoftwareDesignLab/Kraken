@@ -38,7 +38,7 @@ export class AndroidClient implements ClientInterface {
         capabilities: {
           platformName: "Android",
           deviceName: "Android Emulator",
-          app: `${process.cwd()}/example/app.apk`,
+          app: `${process.cwd()}/app.apk`,
           appPackage: "es.usc.citius.servando.calendula",
           appActivity: "es.usc.citius.servando.calendula.activities.StartActivity",
           automationName: "UiAutomator2",

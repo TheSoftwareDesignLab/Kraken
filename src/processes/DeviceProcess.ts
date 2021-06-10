@@ -29,8 +29,19 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
       `${__dirname}/../../bin/cucumber`,
       '-f', 'pretty',
       '--tags', `@user${this.id}`,
-      '--world-parameters', "{\"device_id\": \"Test\"}"
+      '--world-parameters', this.worldParams()
     ];
+  }
+
+  private worldParams(): string {
+    return JSON.stringify({
+      id: this.id,
+      device: {
+        id: this.device.id,
+        model: this.device.model,
+        _type: this.device.constructor.name
+      }
+    });
   }
 
   handleCucumberResult(succeeded:any) {

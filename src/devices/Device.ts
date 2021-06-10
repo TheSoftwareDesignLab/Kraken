@@ -15,7 +15,7 @@ export class Device {
     return randomBytes(10).toString('hex');
   }
 
-  readSignal(signal: string) {
+  async readSignal(signal: string) {
     return new Promise(resolve => this.waitForSignalOrTimeout(signal, Date.now(), resolve));
   }
 
@@ -34,7 +34,7 @@ export class Device {
     }
   }
 
-  writeSignal(signal: string) {
+  async writeSignal(signal: string) {
     FileHelper.instance().appendTextToFile(
       signal, this.inboxFilePath()
     );

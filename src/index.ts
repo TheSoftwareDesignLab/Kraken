@@ -1,6 +1,33 @@
 import { AndroidClient } from './clients/AndroidClient';
 import { WebClient } from './clients/WebClient';
 
+function sleep(time: any) {
+    var stop = new Date().getTime();
+    while (new Date().getTime() < stop + time) {
+        ;
+    }
+}
+
+function sleep2(millis: any) {
+    return new Promise(resolve => setTimeout(resolve, millis));
+}
+
+const algo = async () => {
+    console.log('Hola1');
+    await sleep2(5000);
+    console.log('Hola2');
+};
+
+const otro = async () => {
+    console.log('Hola3');
+    await sleep2(5000);
+    console.log('Hola4');
+};
+
+(async () => {
+    algo();
+    otro();
+})();
 //(async () => {
 //    let firstProcess: AndroidClient = new AndroidClient('emulator-5554');
 //    let firstClient = await firstProcess.start();
