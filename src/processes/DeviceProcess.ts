@@ -60,7 +60,39 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     }
   }
 
-  directory() {
-    
+  static directory(): string[] {
+    if(!FileHelper.instance().pathExists(Constants.DIRECTORY_PATH)) {
+      return [];
+    }
+
+    let directoryContent = FileHelper.instance().contentOfFile(Constants.DIRECTORY_PATH);
+    if(!directoryContent) { return []; }
+
+    return directoryContent.trim().split('\n');
+  }
+
+  static registeredProcessIds(): Number[] {
+    let directory = DeviceProcess.directory();
+
+    return directory.map((entry: string) => {
+      let entryParts: string[] = entry.split(Constants.SEPARATOR);
+      return Number(entryParts[1]);
+    }).filter((id: Number) => {
+      return id != undefined && id != null && id != NaN;
+    });
+  }
+
+  static processesInState(state: Number): Number[] {
+    let filePath: string = Constants.PROCESS_STATE_FILE_PATH[`${state}`];
+    if (!FileHelper.instance().pathExists(filePath)) { return []; }
+
+    let stateContent = FileHelper.instance().contentOfFile(filePath);
+    if (!stateContent) { return []; }
+
+    return stateContent.trim().split('\n').map((entry: string) => {
+      return Number(entry);
+    }).filter((id: Number) => {
+      return id != undefined && id != null && id != NaN;
+    });
   }
 }

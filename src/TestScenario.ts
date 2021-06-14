@@ -53,8 +53,8 @@ export class TestScenario {
   private deleteSupportFilesAndDirectories() {
     FileHelper.instance().deleteFileInPathIfExists(Constants.DIRECTORY_PATH);
     FileHelper.instance().deleteFileInPathIfExists(Constants.DICTIONARY_PATH);
-    for (let filePath in Constants.PROCESS_STATE_FILE_PATH) {
-      FileHelper.instance().deleteFileInPathIfExists(filePath);
+    for (let state in Constants.PROCESS_STATE_FILE_PATH) {
+      FileHelper.instance().deleteFileInPathIfExists(Constants.PROCESS_STATE_FILE_PATH[`${state}`]);
     }
   }
 

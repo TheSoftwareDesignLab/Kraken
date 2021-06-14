@@ -19,7 +19,7 @@ export abstract class SignalingClient {
         } else if (
           (Date.now() - startTime) >= timeout
         ) {
-          throw new Error(`ERROR: Signal timeout,  did not receive signal: ${signal}`);
+          throw new Error(`ERROR: Signal timeout, did not receive signal: ${signal}`);
         } else {
           setTimeout(
             this.waitForSignalOrTimeout.bind(this, signal, timeout, startTime, resolve), 1000
