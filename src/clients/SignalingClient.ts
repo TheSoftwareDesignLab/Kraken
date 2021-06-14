@@ -60,4 +60,11 @@ export abstract class SignalingClient {
     private inboxFilePathForId(id: string): string {
         return `${process.cwd()}/.${id}_${Constants.INBOX_FILE_NAME}`;
     }
+
+    registerProcessToDirectory() {
+        FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
+        FileHelper.instance().appendTextToFile(
+            `${this.id}${Constants.SEPARATOR}`, Constants.DIRECTORY_PATH
+        )
+    }
 }

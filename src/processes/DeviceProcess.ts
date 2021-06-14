@@ -60,13 +60,6 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     }
   }
 
-  registerProcessToDirectory() {
-    FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
-    FileHelper.instance().appendTextToFile(
-      `${this.id}${Constants.SEPARATOR}`, Constants.DIRECTORY_PATH
-    )
-  }
-
   directory() {
     
   }
