@@ -1,18 +1,18 @@
 import { remote } from 'webdriverio';
 import { exec } from "child_process";
-const portfinder = require('portfinder');
 import { ClientInterface } from '../interfaces/ClientInterface';
+import { SignalingClient } from './SignalingClient';
+const portfinder = require('portfinder');
 
-export class AndroidClient implements ClientInterface {
-  deviceId: string;
+export class AndroidClient extends SignalingClient implements ClientInterface {
   port: any;
   proc: any;
   private client: any;
   private defaultClientTimout: number;
   private clientStartingTime: any;
 
-  constructor(deviceId: string) {
-    this.deviceId = deviceId;
+  constructor(id: string) {
+    super(id);
     this.defaultClientTimout = 60000;
   }
 
@@ -54,9 +54,13 @@ export class AndroidClient implements ClientInterface {
   }
 
   private async startProcess() {
-    console.log(`Starting process on device: ${this.deviceId}`);
+    console.log(`Starting process on device: ${this.id}`);
     this.client = await remote(
-      this.generaOpts(this.deviceId)
+      this.generaOpts(this.id), (client: any) => {
+        client.readSignal = this.readSignal.bind(this);
+        client.writeSignal = this.writeSignal.bind(this);
+        return client;
+      }
     );
   }
 
@@ -83,7 +87,7 @@ export class AndroidClient implements ClientInterface {
 
   private onStderr(data: any) {
     let dataText: string = data.toString();
-    console.log(`Error starting process on device: ${this.deviceId}`);
+    console.log(`Error starting process on device: ${this.id}`);
     this.proc.kill('SIGINT');
   }
 }

@@ -1,28 +1,32 @@
 import { remote } from 'webdriverio';
 import { ClientInterface } from '../interfaces/ClientInterface';
-import { Device } from '../devices/Device';
+import { SignalingClient } from './SignalingClient';
 
-export class WebClient implements ClientInterface {
-    deviceId: string;
+export class WebClient extends SignalingClient implements ClientInterface {
     browserName: string;
     private browser: any;
     
-
-    constructor(browserName: string, deviceId?: string, ) {
+    constructor(browserName: string, id?: string) {
+        super(id);
         this.browserName = browserName;
-        this.deviceId = deviceId || Device.generateRandomId();
     }
 
     async start() {
+        this.createInbox();
         this.browser =  await remote({
             capabilities: {
                 browserName: this.browserName
             }
+        }, (client: any) => {
+            client.readSignal = this.readSignal.bind(this);
+            client.writeSignal = this.writeSignal.bind(this);
+            return client;
         });
         return this.browser;
     }
 
     async stop() {
+        this.deleteInbox();
         await this.browser.deleteSession()
     }
 }

@@ -2,6 +2,8 @@ import { Device } from '../devices/Device';
 import { TestScenario } from '../TestScenario';
 import { DeviceProcessInterface } from '../interfaces/DeviceProcessInterface';
 import { spawn } from "child_process";
+import { FileHelper } from '../utils/FileHelper';
+import * as Constants from '../utils/Constants';
 
 export abstract class DeviceProcess implements DeviceProcessInterface {
   id: number;
@@ -56,5 +58,16 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
         process.exit();
       });
     }
+  }
+
+  registerProcessToDirectory() {
+    FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
+    FileHelper.instance().appendTextToFile(
+      `${this.id}${Constants.SEPARATOR}`, Constants.DIRECTORY_PATH
+    )
+  }
+
+  directory() {
+    
   }
 }

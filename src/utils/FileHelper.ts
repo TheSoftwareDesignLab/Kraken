@@ -67,8 +67,10 @@ export class FileHelper {
     }
   }
 
-  createFile(path: string) {
-    fs.openSync(path, 'w');
+  createFileIfDoesNotExist(path: string) {
+    if (!fs.existsSync(path)) {
+      fs.openSync(path, 'w');
+    }
   }
 
   contentOfFile(path: string): any {
