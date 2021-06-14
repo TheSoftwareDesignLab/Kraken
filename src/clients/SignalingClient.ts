@@ -9,8 +9,22 @@ export abstract class SignalingClient {
         this.id = id || Device.generateRandomId();
     }
 
-    readSignal(signal: string) {
+    async readSignal(signal: string) {
+        return new Promise(resolve => this.waitForSignalOrTimeout(signal, Date.now(), resolve));
+    }
 
+    private waitForSignalOrTimeout(signal: string, startTime: any, resolve: any) {
+        if (signal === this.inboxLastSignal()) {
+          resolve(signal);
+        } else if (
+          (Date.now() - startTime) >= Constants.DEFAULT_TIMEOUT_MILLISECONDS
+        ) {
+          throw new Error(`ERROR: Signal timeout,  did not receive signal: ${signal}`);
+        } else {
+          setTimeout(
+            this.waitForSignalOrTimeout.bind(this, signal, startTime, resolve), 1000
+          );
+        }
     }
 
     writeSignal(receiverInboxId: string, signal: string) {
