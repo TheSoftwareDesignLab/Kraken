@@ -19,7 +19,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
   abstract run(): void;
 
   protected async runWithArgs(args: string[]) {
-    const cucumberProcess = spawn(
+    const cucumberProcess = await spawn(
       'node', args, {
         stdio: 'inherit'
       }

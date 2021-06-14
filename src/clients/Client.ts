@@ -30,7 +30,7 @@ export abstract class Client extends SignalingClient {
     }
 
     waitForAllDevicesReadyToStartOrTimeout(startTime: any, resolve: any) {
-        if (this.allRegisteredDevicesAreReady()) {
+        if (this.allRegisteredDevicesAreReadyToStart()) {
             resolve();
         } else if (
             (Date.now() - startTime) >= Constants.DEFAULT_START_TIMEOUT_MILLISECONDS
@@ -43,9 +43,35 @@ export abstract class Client extends SignalingClient {
         }
     }
 
-    private allRegisteredDevicesAreReady(): Boolean {
+    async allDevicesReadyToFinish() {
+        return new Promise(resolve => this.waitForAllDevicesReadyToFinishOrTimeout(Date.now(), resolve));
+    }
+
+    waitForAllDevicesReadyToFinishOrTimeout(startTime: any, resolve: any) {
+        if (this.allRegisteredDevicesAreReadyToFinish()) {
+            resolve();
+        } else if (
+            (Date.now() - startTime) >= Constants.DEFAULT_FINISH_TIMEOUT_SECONDS
+        ) {
+            throw new Error(`ERROR: Timeout, not all devices were ready to start the scenario.`);
+        } else {
+            setTimeout(
+                this.waitForAllDevicesReadyToFinishOrTimeout.bind(this, startTime, resolve), 1000
+            );
+        }
+    }
+
+    private allRegisteredDevicesAreReadyToStart(): Boolean {
         let registered_ids = DeviceProcess.registeredProcessIds();
         let directory_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_start);
+        return registered_ids.filter((registered_id) => {
+            return !directory_ids.includes(registered_id);
+        }).length <= 0;
+    }
+    
+    private allRegisteredDevicesAreReadyToFinish(): Boolean {
+        let registered_ids = DeviceProcess.registeredProcessIds();
+        let directory_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_finish);
         return registered_ids.filter((registered_id) => {
             return !directory_ids.includes(registered_id);
         }).length <= 0;
