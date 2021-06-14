@@ -61,10 +61,24 @@ export abstract class SignalingClient {
         return `${process.cwd()}/.${id}_${Constants.INBOX_FILE_NAME}`;
     }
 
-    registerProcessToDirectory() {
+    registerProcessToDirectoryWithUserId(userId: Number) {
         FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
         FileHelper.instance().appendTextToFile(
-            `${this.id}${Constants.SEPARATOR}`, Constants.DIRECTORY_PATH
+            `${this.id}${Constants.SEPARATOR}${userId}`, Constants.DIRECTORY_PATH
         )
+    }
+
+    notifyReadyToStart(userId: Number) {
+        this.notifyProcessState(userId, Constants.PROCESS_STATES.ready_to_start);
+    }
+
+    notifyReadyToFinish(userId: Number) {
+        this.notifyProcessState(userId, Constants.PROCESS_STATES.ready_to_finish);
+    }
+
+    notifyProcessState(userId: Number, state: Number) {
+        let filePath: string = Constants.PROCESS_STATE_FILE_PATH[`${state}`];
+        FileHelper.instance().createFileIfDoesNotExist(filePath);
+        FileHelper.instance().appendTextToFile(`${userId}`, filePath);
     }
 }

@@ -24,7 +24,7 @@ export class FeatureFile {
           featureChild.scenario.tags.map((tag: any) => (tag.name))
         )
       )
-    })
+    });
   }
 
   requiredDevicesInfo() {
