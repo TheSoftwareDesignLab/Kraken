@@ -1,8 +1,7 @@
 import { remote } from 'webdriverio';
-import { ClientInterface } from '../interfaces/ClientInterface';
 import { Client } from './Client';
 
-export class WebClient extends Client implements ClientInterface {
+export class WebClient extends Client {
     browserName: string;
     private browser: any;
     
@@ -11,7 +10,7 @@ export class WebClient extends Client implements ClientInterface {
         this.browserName = browserName;
     }
 
-    async start() {
+    async start(): Promise<any> {
         this.createInbox();
         this.browser =  await remote({
             capabilities: {
@@ -25,8 +24,8 @@ export class WebClient extends Client implements ClientInterface {
         return this.browser;
     }
 
-    async stop() {
+    async stop(): Promise<any> {
         this.deleteInbox();
-        await this.browser.deleteSession()
+        await this.browser.deleteSession();
     }
 }

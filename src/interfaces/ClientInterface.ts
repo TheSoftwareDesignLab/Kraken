@@ -1,4 +1,4 @@
 export interface ClientInterface {
-    start(): any;
-    stop(): void;
+    start(): Promise<any>;
+    stop(): Promise<any>;
 }

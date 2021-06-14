@@ -2,8 +2,27 @@ import { SignalingClient } from "./SignalingClient";
 import * as Constants from '../utils/Constants';
 import { FileHelper } from '../utils/FileHelper';
 import { DeviceProcess } from "../processes/DeviceProcess";
+import { ClientInterface } from '../interfaces/ClientInterface';
 
-export abstract class Client extends SignalingClient {
+export abstract class Client extends SignalingClient implements ClientInterface {
+    async startKrakenForUserId(userId: Number) {
+        let driver = await this.start();
+        this.registerProcessToDirectoryWithUserId(userId);
+        this.notifyReadyToStart(userId);
+        await this.allDevicesReadyToStart();
+        return driver;
+    }
+
+    async stopKrakenForUserId(userId: Number) {
+        this.notifyReadyToFinish(userId);
+        await this.allDevicesReadyToFinish();
+        await this.stop();
+        this.notifyFinished(userId);
+    }
+
+    abstract start(): Promise<any>;
+    abstract stop(): Promise<any>;
+
     registerProcessToDirectoryWithUserId(userId: Number) {
         FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
         FileHelper.instance().appendTextToFile(
@@ -17,6 +36,10 @@ export abstract class Client extends SignalingClient {
 
     notifyReadyToFinish(userId: Number) {
         this.notifyProcessState(userId, Constants.PROCESS_STATES.ready_to_finish);
+    }
+
+    notifyFinished(userId: Number) {
+        this.notifyProcessState(userId, Constants.PROCESS_STATES.finished);
     }
 
     notifyProcessState(userId: Number, state: Number) {
@@ -33,7 +56,7 @@ export abstract class Client extends SignalingClient {
         if (this.allRegisteredDevicesAreReadyToStart()) {
             resolve();
         } else if (
-            (Date.now() - startTime) >= Constants.DEFAULT_START_TIMEOUT_MILLISECONDS
+            (Date.now() - startTime) >= Constants.DEFAULT_PROCESS_START_TIMEOUT_MILLISECONDS
         ) {
             throw new Error(`ERROR: Timeout, not all devices were ready to start the scenario.`);
         } else {
@@ -51,7 +74,7 @@ export abstract class Client extends SignalingClient {
         if (this.allRegisteredDevicesAreReadyToFinish()) {
             resolve();
         } else if (
-            (Date.now() - startTime) >= Constants.DEFAULT_FINISH_TIMEOUT_SECONDS
+            (Date.now() - startTime) >= Constants.DEFAULT_PROCESS_FINISH_TIMEOUT_SECONDS
         ) {
             throw new Error(`ERROR: Timeout, not all devices were ready to start the scenario.`);
         } else {
@@ -63,17 +86,17 @@ export abstract class Client extends SignalingClient {
 
     private allRegisteredDevicesAreReadyToStart(): Boolean {
         let registered_ids = DeviceProcess.registeredProcessIds();
-        let directory_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_start);
+        let ready_to_start_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_start);
         return registered_ids.filter((registered_id) => {
-            return !directory_ids.includes(registered_id);
+            return !ready_to_start_ids.includes(registered_id);
         }).length <= 0;
     }
     
     private allRegisteredDevicesAreReadyToFinish(): Boolean {
         let registered_ids = DeviceProcess.registeredProcessIds();
-        let directory_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_finish);
+        let ready_to_finish_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.ready_to_finish);
         return registered_ids.filter((registered_id) => {
-            return !directory_ids.includes(registered_id);
+            return !ready_to_finish_ids.includes(registered_id);
         }).length <= 0;
     }
 }

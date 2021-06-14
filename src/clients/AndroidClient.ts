@@ -1,10 +1,9 @@
 import { remote } from 'webdriverio';
 import { exec } from "child_process";
-import { ClientInterface } from '../interfaces/ClientInterface';
 import { Client } from './Client';
 const portfinder = require('portfinder');
 
-export class AndroidClient extends Client implements ClientInterface {
+export class AndroidClient extends Client {
   port: any;
   proc: any;
   private client: any;
@@ -16,7 +15,7 @@ export class AndroidClient extends Client implements ClientInterface {
     this.defaultClientTimout = 60000;
   }
 
-  async start() {
+  async start(): Promise<any>{
     this.port = await this.availablePort();
     this.proc = exec(`appium -p ${this.port}`);
     this.proc.stdout.on('data', this.onStdout.bind(this));
@@ -25,7 +24,7 @@ export class AndroidClient extends Client implements ClientInterface {
     return new Promise(this.waitForClientToStart.bind(this));
   }
 
-  async stop() {
+  async stop(): Promise<any> {
     await this.client.deleteSession();
     this.proc.kill('SIGINT');
   }

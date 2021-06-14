@@ -30,6 +30,10 @@ export class TestScenario {
     this.beforeExecute();
     this.execute();
     this.afterExecute();
+    console.log(this.allRegiresteredDevicesFinished());
+    console.log(this.allRegiresteredDevicesFinished());
+    console.log(this.allRegiresteredDevicesFinished());
+    console.log(this.allRegiresteredDevicesFinished());
   }
 
   private beforeExecute() {
@@ -84,8 +88,8 @@ export class TestScenario {
 
   private sampleDevices(): AndroidDevice[] {
     let sample: any[] = [];
-    let mobileDevices: AndroidDevice[] = this.sample_mobile_devices();
-    let webDevices: WebDevice[] = this.sample_web_devices();
+    let mobileDevices: AndroidDevice[] = this.sampleMobileDevices();
+    let webDevices: WebDevice[] = this.sampleWebDevices();
     this.featureFile.requiredDevicesInfo().forEach((deviceInfo) => {
       let userId: number = Number(deviceInfo.userId); 
       let device = deviceInfo.systemType === '@web' ? webDevices.shift() : mobileDevices.shift();
@@ -94,18 +98,27 @@ export class TestScenario {
     return sample;
   }
 
-  private sample_mobile_devices(): AndroidDevice[] {
+  private sampleMobileDevices(): AndroidDevice[] {
     let mobileDevices: AndroidDevice[] = ADB.instance().connectedDevices();
     let numberOfRequiredMobileDevices =  this.featureFile.numberOfRequiredMobileDevices();
     return mobileDevices.slice(0, numberOfRequiredMobileDevices);
   }
 
-  private sample_web_devices(): WebDevice[] {
+  private sampleWebDevices(): WebDevice[] {
     let numberOfRequiredWebDevices =  this.featureFile.numberOfRequiredWebDevices();
     let webDevices: WebDevice[] = [];
     for(var i = 0; i < numberOfRequiredWebDevices; i++) {
       webDevices.push(WebDevice.factoryCreate())
     }
     return webDevices.slice(0, numberOfRequiredWebDevices);
+  }
+
+  private allRegiresteredDevicesFinished(): Boolean {
+    let registered_ids = DeviceProcess.registeredProcessIds();
+    let finished_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.finished);
+    console.log(finished_ids);
+    return registered_ids.filter((registered_id) => {
+      return !finished_ids.includes(registered_id);
+    }).length <= 0;
   }
 }
