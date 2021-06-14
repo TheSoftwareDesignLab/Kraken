@@ -1,10 +1,10 @@
 import { remote } from 'webdriverio';
 import { exec } from "child_process";
 import { ClientInterface } from '../interfaces/ClientInterface';
-import { SignalingClient } from './SignalingClient';
+import { Client } from './Client';
 const portfinder = require('portfinder');
 
-export class AndroidClient extends SignalingClient implements ClientInterface {
+export class AndroidClient extends Client implements ClientInterface {
   port: any;
   proc: any;
   private client: any;

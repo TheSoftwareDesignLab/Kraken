@@ -1,8 +1,8 @@
 import { remote } from 'webdriverio';
 import { ClientInterface } from '../interfaces/ClientInterface';
-import { SignalingClient } from './SignalingClient';
+import { Client } from './Client';
 
-export class WebClient extends SignalingClient implements ClientInterface {
+export class WebClient extends Client implements ClientInterface {
     browserName: string;
     private browser: any;
     
