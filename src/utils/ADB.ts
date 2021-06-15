@@ -17,8 +17,8 @@ export class ADB {
     let devices: AndroidDevice[] = [];
     const adbDevices: string = execSync('adb devices -l').toString();
     adbDevices.split('\n').forEach((line: string) => {
-      const id: any = this.extract_device_id_from_line(line);
-      const model: any = this.extract_device_model_from_line(line);
+      const id: any = this.extractDeviceIdFromLine(line);
+      const model: any = this.extractDeviceModelFromLine(line);
       if(!id || !model) { return; }
 
       devices.push(new AndroidDevice(id, model));
@@ -26,13 +26,13 @@ export class ADB {
     return devices;
   }
 
-  private extract_device_id_from_line(line: string) {
+  private extractDeviceIdFromLine(line: string) {
     if(line.match(/device(?!s)/)) {
       return line.split(' ')[0]
     }
   }
 
-  private extract_device_model_from_line(line: string) {
+  private extractDeviceModelFromLine(line: string) {
     if(line.match(/device(?!s)/)) {
       let match: any = line.match(/model:(.*) device/);
       if(match && match.length > 1) {

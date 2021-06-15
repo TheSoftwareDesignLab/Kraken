@@ -26,7 +26,7 @@ export class TestScenario {
   }
 
   public async run() {
-    if (!this.featureFile.has_right_syntax()) {
+    if (!this.featureFile.hasRightSyntax()) {
       throw new Error(
         `ERROR: Verify feature file ${this.featureFile.filePath} has one unique @user tag for each scenario`
         );

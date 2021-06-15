@@ -57,11 +57,11 @@ export class FeatureFile {
     return this.uniqueUserTags().length;
   }
 
-  has_right_syntax(): Boolean {
-    return this.all_scenarios_have_a_user_tag() && !this.has_duplicate_tags_for_a_user();
+  hasRightSyntax(): Boolean {
+    return this.allScenariosHaveAUserTag() && !this.hasDuplicateTagsForAUser();
   }
 
-  has_duplicate_tags_for_a_user(): Boolean {
+  hasDuplicateTagsForAUser(): Boolean {
     let tags = this.allUserTags();
     for(var i: number = 0; i < tags.length; i++) {
       for(var j: number = i+1; j < tags.length; j++) {
@@ -77,7 +77,7 @@ export class FeatureFile {
     return false;
   }
 
-  all_scenarios_have_a_user_tag(): Boolean {
+  allScenariosHaveAUserTag(): Boolean {
     let emptyUserTagScenarios = this.scenarios.filter((scenario: FeatureScenario) => {
       let userTags: String[] = scenario.tags.filter((tag: string) => {
         return tag.startsWith('@user');
