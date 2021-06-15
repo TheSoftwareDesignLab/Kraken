@@ -18,9 +18,13 @@ export class KrakenMobile {
     let features: FeatureFile[] = FeatureReader.instance().getFeatureFiles();
     features.forEach((feature) => {
       this.scenariosQueue.push(
-        new TestScenario(feature)
+        new TestScenario(feature, this)
       );
     });
+  }
+
+  onTestScenarioFinished() {
+    this.executeNextScenario();
   }
 
   private executeNextScenario(): any {

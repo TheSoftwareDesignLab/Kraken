@@ -10,14 +10,17 @@ import { DeviceProcess } from './processes/DeviceProcess';
 import * as Constants from './utils/Constants';
 import { FileHelper } from './utils/FileHelper';
 import { Reporter } from './reports/Reporter';
+import { KrakenMobile } from './KrakenMobile';
 
 export class TestScenario {
   featureFile: FeatureFile;
   reporter: Reporter;
   processes: DeviceProcess[];
+  krakenApp: KrakenMobile;
 
-  constructor(featureFile: FeatureFile) { 
+  constructor(featureFile: FeatureFile, krakenApp: KrakenMobile) { 
     this.featureFile = featureFile;
+    this.krakenApp = krakenApp;
     this.reporter = new Reporter(this);
     this.processes = [];
   }
@@ -57,6 +60,11 @@ export class TestScenario {
 
   private afterExecute() {
     this.deleteSupportFilesAndDirectories();
+    this.notifyScenarioFinished();
+  }
+
+  private notifyScenarioFinished() {
+    this.krakenApp.onTestScenarioFinished();
   }
 
   private deleteSupportFilesAndDirectories() {

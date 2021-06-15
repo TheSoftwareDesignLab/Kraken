@@ -30,6 +30,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     return [
       `${__dirname}/../../bin/cucumber`,
       '-f', 'pretty',
+      `${this.testScenario.featureFile.filePath}`,
       '--tags', `@user${this.id}`,
       '--world-parameters', this.worldParams()
     ];
