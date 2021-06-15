@@ -14,6 +14,13 @@ switch(action) {
         kraken.start();
         break;
     }
+    case 'apk-info': {
+        const { AAPT } = require('../lib/utils/AAPT');
+        let apkPath = process.argv.slice(3)[0];
+        let aaptResult = AAPT.instance().apkInfo(apkPath);
+        console.log(`\nLaunch activity: ${aaptResult.apkLaunchActivity}\nPackage: ${aaptResult.apkPackage}\n`);
+        break;
+    }
     default: {
         throw new Error('ERROR: Command not supported');
     }
