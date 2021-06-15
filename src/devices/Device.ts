@@ -15,28 +15,7 @@ export class Device {
     return randomBytes(10).toString('hex');
   }
 
-  async readSignal(signal: string) {
-    //return new Promise(resolve => this.waitForSignalOrTimeout(signal, Date.now(), resolve));
-  }
-
-  private waitForSignalOrTimeout(signal: string, startTime: any, resolve: any) {
-    //console.log(Date.now() - startTime);
-    //if (signal === this.inboxLastSignal()) {
-    //  resolve(signal);
-    //} else if (
-    //  (Date.now() - startTime) >= Constants.DEFAULT_TIMEOUT_MILLISECONDS
-    //) {
-    //  throw new Error(`ERROR: Signal timeout,  did not receive signal: ${signal}`);
-    //} else {
-    //  setTimeout(
-    //    this.waitForSignalOrTimeout.bind(this, signal, startTime, resolve), 1000
-    //  );
-    //}
-  }
-
-  async writeSignal(signal: string) {
-    //FileHelper.instance().appendTextToFile(
-    //  signal, this.inboxFilePath()
-    //);
+  toString(): string {
+    return `${this.id}${Constants.SEPARATOR}${this.model}${Constants.SEPARATOR}${this.constructor.name}`
   }
 }

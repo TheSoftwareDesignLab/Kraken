@@ -7,7 +7,6 @@ import { ClientInterface } from '../interfaces/ClientInterface';
 export abstract class Client extends SignalingClient implements ClientInterface {
     async startKrakenForUserId(userId: Number) {
         let driver = await this.start();
-        this.registerProcessToDirectoryWithUserId(userId);
         this.notifyReadyToStart(userId);
         await this.allDevicesReadyToStart();
         return driver;
@@ -22,13 +21,6 @@ export abstract class Client extends SignalingClient implements ClientInterface 
 
     abstract start(): Promise<any>;
     abstract stop(): Promise<any>;
-
-    registerProcessToDirectoryWithUserId(userId: Number) {
-        FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
-        FileHelper.instance().appendTextToFile(
-            `${this.id}${Constants.SEPARATOR}${userId}`, Constants.DIRECTORY_PATH
-        )
-    }
 
     notifyReadyToStart(userId: Number) {
         this.notifyProcessState(userId, Constants.PROCESS_STATES.ready_to_start);
@@ -76,7 +68,7 @@ export abstract class Client extends SignalingClient implements ClientInterface 
         } else if (
             (Date.now() - startTime) >= Constants.DEFAULT_PROCESS_FINISH_TIMEOUT_SECONDS
         ) {
-            throw new Error(`ERROR: Timeout, not all devices were ready to start the scenario.`);
+            throw new Error(`ERROR: Timeout, not all devices were ready to finish the scenario.`);
         } else {
             setTimeout(
                 this.waitForAllDevicesReadyToFinishOrTimeout.bind(this, startTime, resolve), 1000

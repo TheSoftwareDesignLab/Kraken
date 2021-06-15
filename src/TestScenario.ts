@@ -14,13 +14,15 @@ import { Reporter } from './reports/Reporter';
 export class TestScenario {
   featureFile: FeatureFile;
   reporter: Reporter;
+  processes: DeviceProcess[];
 
   constructor(featureFile: FeatureFile) { 
     this.featureFile = featureFile;
     this.reporter = new Reporter(this);
+    this.processes = [];
   }
 
-  public run() {
+  public async run() {
     if (!this.featureFile.has_right_syntax()) {
       throw new Error(
         `ERROR: Verify feature file ${this.featureFile.filePath} has one unique @user tag for each scenario`
@@ -29,24 +31,27 @@ export class TestScenario {
 
     this.beforeExecute();
     this.execute();
+    await this.allProcessesFinished();
     this.afterExecute();
-    console.log(this.allRegiresteredDevicesFinished());
-    console.log(this.allRegiresteredDevicesFinished());
-    console.log(this.allRegiresteredDevicesFinished());
-    console.log(this.allRegiresteredDevicesFinished());
   }
 
   private beforeExecute() {
     this.deleteAllInboxes();
     this.deleteSupportFilesAndDirectories();
-  }
 
-  private execute() {
     let devices: Device[] = this.sampleDevices();
     devices.forEach((device: AndroidDevice, index: number) => {
       if (!device) { return; }
 
-      this.startProcessForUserIdInDevice(index + 1, device);
+      let process = this.processForUserIdInDevice(index + 1, device);
+      process.registerProcessToDirectory();
+      this.processes.push(process);
+    });
+  }
+
+  private execute() {
+    this.processes.forEach((process) => {
+      process.run();
     });
   }
 
@@ -66,24 +71,16 @@ export class TestScenario {
     FileHelper.instance().deleteFilesWithGlobPattern(`${process.cwd()}/.*_${Constants.INBOX_FILE_NAME}`);
   }
 
-  startProcessForUserIdInDevice(userId: number, device: Device) {
+  processForUserIdInDevice(userId: number, device: Device) {
+    let process: any = null;
     if(device instanceof AndroidDevice) {
-      this.startAndroidProcessForUserIdInDevice(userId, device);
+      process = new AndroidProcess(userId, device, this);
     } else if(device instanceof WebDevice) {
-      this.startWebProcessForUserIdInDevice(userId, device);
+      process = new WebProcess(userId, device, this);
     } else {
       throw new Error('ERROR: Platform not supported');
     }
-  }
-
-  startAndroidProcessForUserIdInDevice(userId: number, device: Device) {
-    let process: AndroidProcess = new AndroidProcess(userId, device, this);
-    process.run();
-  }
-
-  startWebProcessForUserIdInDevice(userId: number, device: Device) {
-    let process: WebProcess = new WebProcess(userId, device, this);
-    process.run();
+    return process;
   }
 
   private sampleDevices(): AndroidDevice[] {
@@ -114,11 +111,28 @@ export class TestScenario {
   }
 
   private allRegiresteredDevicesFinished(): Boolean {
-    let registered_ids = DeviceProcess.registeredProcessIds();
+    let registered_ids = DeviceProcess.registeredProcessIds();    
     let finished_ids = DeviceProcess.processesInState(Constants.PROCESS_STATES.finished);
-    console.log(finished_ids);
     return registered_ids.filter((registered_id) => {
       return !finished_ids.includes(registered_id);
     }).length <= 0;
+  }
+
+  private async allProcessesFinished() {
+    return new Promise(resolve => this.waitForAllProcessesToFinishOrTimeout(Date.now(), resolve));
+  }
+
+  private waitForAllProcessesToFinishOrTimeout(startTime: any, resolve: any) {
+    if (this.allRegiresteredDevicesFinished()) {
+      resolve();
+    } else if (
+      (Date.now() - startTime) >= Constants.DEFAULT_PROCESS_TIMEOUT_SECONDS
+    ) {
+      throw new Error(`ERROR: Timeout, a process took more time than expected.`);
+    } else {
+      setTimeout(
+        this.waitForAllProcessesToFinishOrTimeout.bind(this, startTime, resolve), 1000
+      );
+    }
   }
 }

@@ -6,11 +6,11 @@ import { FileHelper } from '../utils/FileHelper';
 import * as Constants from '../utils/Constants';
 
 export abstract class DeviceProcess implements DeviceProcessInterface {
-  id: number;
+  id: Number;
   device: Device;
   testScenario: TestScenario;
 
-  constructor(id: number, device: Device, testScenario: TestScenario) {
+  constructor(id: Number, device: Device, testScenario: TestScenario) {
     this.id = id;
     this.device = device;
     this.testScenario = testScenario;
@@ -76,7 +76,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
 
     return directory.map((entry: string) => {
       let entryParts: string[] = entry.split(Constants.SEPARATOR);
-      return Number(entryParts[1]);
+      return Number(entryParts[0]);
     }).filter((id: Number) => {
       return id != undefined && id != null && id != NaN;
     });
@@ -94,5 +94,12 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     }).filter((id: Number) => {
       return id != undefined && id != null && id != NaN;
     });
+  }
+
+  registerProcessToDirectory() {
+    FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
+    FileHelper.instance().appendTextToFile(
+      `${this.id}${Constants.SEPARATOR}${this.device}`, Constants.DIRECTORY_PATH
+    )
   }
 }
