@@ -6,16 +6,23 @@ const portfinder = require('portfinder');
 export class AndroidClient extends Client {
   port: any;
   proc: any;
+  app: string;
+  appPackage: string;
+  appActivity: string;
   private client: any;
   private defaultClientTimout: number;
   private clientStartingTime: any;
 
-  constructor(id: string) {
+  constructor(id: string, app: string, appPackage: string, appActivity: string) {
     super(id);
     this.defaultClientTimout = 60000;
+    this.app = app;
+    this.appPackage = appPackage;
+    this.appActivity = appActivity;
   }
 
   async start(): Promise<any>{
+    this.createInbox();
     this.port = await this.availablePort();
     this.proc = exec(`appium -p ${this.port}`);
     this.proc.stdout.on('data', this.onStdout.bind(this));
@@ -25,6 +32,7 @@ export class AndroidClient extends Client {
   }
 
   async stop(): Promise<any> {
+    this.deleteInbox();
     await this.client.deleteSession();
     this.proc.kill('SIGINT');
   }
@@ -37,9 +45,9 @@ export class AndroidClient extends Client {
         capabilities: {
           platformName: "Android",
           deviceName: "Android Emulator",
-          app: `${process.cwd()}/app.apk`,
-          appPackage: "es.usc.citius.servando.calendula",
-          appActivity: "es.usc.citius.servando.calendula.activities.StartActivity",
+          app: this.app,
+          appPackage: this.appPackage,
+          appActivity: this.appActivity,
           automationName: "UiAutomator2",
           udid: udid
         }

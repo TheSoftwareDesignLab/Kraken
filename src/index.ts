@@ -28,7 +28,12 @@ import { WebClient } from './clients/WebClient';
 //})();
 
 (async () => {
-    let firstProcess: WebClient = new WebClient('chrome');
+    let firstProcess: AndroidClient = new AndroidClient(
+        '93c6af52',
+        `${process.cwd()}/example/app.apk`,
+        'es.usc.citius.servando.calendula',
+        'es.usc.citius.servando.calendula.activities.StartActivity'
+    );
     let firstClient = await firstProcess.start();
 
     let secondProcess: WebClient = new WebClient('chrome');
@@ -36,11 +41,9 @@ import { WebClient } from './clients/WebClient';
 
     const firstTest = async () => {
         try {
-            await firstClient.url('https://www.google.com');
             await new Promise(r => setTimeout(r, 2000));
             await firstClient.writeSignal(secondProcess.id, 'signal1');
             await firstClient.readSignal('signal2');
-            await firstClient.url('https://www.youtube.com');
             await new Promise(r => setTimeout(r, 2000));
         } catch (error) {
             console.log(error);
