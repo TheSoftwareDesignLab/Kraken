@@ -23,8 +23,8 @@ export class AAPT {
 
         const aaptResult: string = execSync(`aapt dump badging ${apkPath}`).toString();
         return {
-            apkLaunchActivity: this.extractApkLaunchActivityFromDumpBadging(aaptResult),
-            apkPackage: this.extractApkPackageFromDumpBadging(aaptResult)
+            apkLaunchActivity: this.extractApkLaunchActivityFromDumpBadging(aaptResult) || 'Not found',
+            apkPackage: this.extractApkPackageFromDumpBadging(aaptResult) || 'Not found'
         }
     }
 
