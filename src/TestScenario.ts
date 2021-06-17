@@ -91,7 +91,7 @@ export class TestScenario {
     return process;
   }
 
-  private sampleDevices(): AndroidDevice[] {
+  sampleDevices(): Device[] {
     let sample: any[] = [];
     let mobileDevices: AndroidDevice[] = this.sampleMobileDevices();
     let webDevices: WebDevice[] = this.sampleWebDevices();
@@ -103,13 +103,13 @@ export class TestScenario {
     return sample;
   }
 
-  private sampleMobileDevices(): AndroidDevice[] {
+  sampleMobileDevices(): AndroidDevice[] {
     let mobileDevices: AndroidDevice[] = ADB.instance().connectedDevices();
     let numberOfRequiredMobileDevices =  this.featureFile.numberOfRequiredMobileDevices();
     return mobileDevices.slice(0, numberOfRequiredMobileDevices);
   }
 
-  private sampleWebDevices(): WebDevice[] {
+  sampleWebDevices(): WebDevice[] {
     let numberOfRequiredWebDevices =  this.featureFile.numberOfRequiredWebDevices();
     let webDevices: WebDevice[] = [];
     for(var i = 0; i < numberOfRequiredWebDevices; i++) {

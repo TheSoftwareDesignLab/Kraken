@@ -43,8 +43,21 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
         id: this.device.id,
         model: this.device.model,
         _type: this.device.constructor.name
-      }
+      },
+      mobile_info: this.mobileInfoForProcess()
     });
+  }
+
+  private mobileInfoForProcess() {
+    if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) { return; }
+
+    let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
+    let jsonMobileInfo = JSON.parse(mobileInfo);
+    return {
+      apk_path: FileHelper.instance().pathToAbsolutePath(jsonMobileInfo.apk_path),
+      apk_package: jsonMobileInfo.apk_package,
+      apk_launch_activity: jsonMobileInfo.apk_launch_activity
+    }
   }
 
   handleCucumberResult(succeeded:any) {

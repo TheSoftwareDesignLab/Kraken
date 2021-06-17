@@ -21,6 +21,11 @@ switch(action) {
         console.log(`\nLaunch activity: ${aaptResult.apkLaunchActivity}\nPackage: ${aaptResult.apkPackage}\n`);
         break;
     }
+    case 'doctor': {
+        const { DependencyChecker } = require('../lib/utils/DependencyChecker');
+        DependencyChecker.instance().checkDependencies();
+        break;
+    }
     default: {
         throw new Error('ERROR: Command not supported');
     }

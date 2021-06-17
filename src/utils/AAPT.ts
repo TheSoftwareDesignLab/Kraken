@@ -1,5 +1,4 @@
 import { FileHelper } from "./FileHelper";
-
 const { execSync } = require("child_process");
 
 export class AAPT {

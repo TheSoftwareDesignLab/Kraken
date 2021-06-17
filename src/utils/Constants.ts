@@ -18,6 +18,7 @@ export const SEPARATOR = ';';
 export const DEFAULT_PROCESS_START_TIMEOUT_MILLISECONDS = 600000 // 10 minutes
 export const DEFAULT_PROCESS_FINISH_TIMEOUT_SECONDS = 600000 // 10 minutes
 export const DEFAULT_PROCESS_TIMEOUT_SECONDS = 600000 // 10 minutes
+export const MOBILE_INFO_PATH = `${process.cwd()}/mobile.json`;
 
 let process_state_file_paths: DynamicHash = {};
 process_state_file_paths[`${PROCESS_STATES.ready_to_start}`] = DEVICES_READY_START_PATH;

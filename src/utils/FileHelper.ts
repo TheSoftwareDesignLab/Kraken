@@ -1,6 +1,7 @@
 import fs from "fs";
 import fse from "fs-extra";
 import glob from "glob";
+import path from "path";
 
 export class FileHelper {
   private static singletonInstance: FileHelper;
@@ -80,5 +81,13 @@ export class FileHelper {
 
   appendTextToFile(text: string, path: string) {
     fs.appendFileSync(path, `${text}\n`);
+  }
+
+  isValidApk(apkPath: string): Boolean {
+    return apkPath.slice(apkPath.length - 4) === '.apk';
+  }
+
+  pathToAbsolutePath(filePath: string): string {
+    return path.resolve(filePath);
   }
 }
