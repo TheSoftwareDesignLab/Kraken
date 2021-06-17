@@ -1,5 +1,5 @@
-var { After, Before } = require('@cucumber/cucumber');
-import { AndroidClient } from 'kraken-node';
+const { After, Before } = require('@cucumber/cucumber');
+const { AndroidClient } = require('kraken-node');
 
 Before(async function () {
   this.deviceClient = new AndroidClient(

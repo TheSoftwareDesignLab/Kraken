@@ -11,7 +11,7 @@ export class Scaffolder {
         }
 
         FileHelper.instance().copyFolderToPath(
-            `${__dirname}/../../features-skeleton`, `${process.cwd()}/features`
+            `${__dirname}/../../features-skeleton`, `${process.cwd()}/`
         );
     }
 }
