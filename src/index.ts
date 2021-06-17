@@ -73,8 +73,3 @@ import { DependencyChecker } from './utils/DependencyChecker';
     //firstTest();
     //secondTest();
 //})();
-
-console.log(DependencyChecker.instance().isAaptInstalled());
-console.log(DependencyChecker.instance().isAndroidSdkInstalled());
-console.log(DependencyChecker.instance().isAppiumInstalled());
-console.log(DependencyChecker.instance().isJavaInstalled());
