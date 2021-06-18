@@ -8,7 +8,7 @@
     "kraken-node": "./bin/kraken-node"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/test.ts",
     "example": "ts-node example/index.ts",
     "cucumber": "cucumber-js ./example",
     "build": "tsc -p ."

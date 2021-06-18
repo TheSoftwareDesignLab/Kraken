@@ -4,18 +4,14 @@ import { AAPT } from './utils/AAPT';
 import { ADB } from './utils/ADB';
 import { DependencyChecker } from './utils/DependencyChecker';
 
-//(async () => {
-//    let firstProcess: AndroidClient = new AndroidClient('emulator-5554');
-//    let firstClient = await firstProcess.start();
-//
-//    let secondProcess: WebClient = new WebClient('chrome');
-//    let secondClient = await secondProcess.start();
-//
-//    await new Promise(r => setTimeout(r, 5000));
-//
-//    firstProcess.stop();
-//    secondProcess.stop();
-//})();
+(async () => {
+    let secondProcess: WebClient = new WebClient('chrome');
+    let secondClient = await secondProcess.start();
+
+    await new Promise(r => setTimeout(r, 5000));
+
+    secondProcess.stop();
+})();
 
 //(async () => {
 //  let firstProcess: AndroidClient = new AndroidClient('93c6af52');

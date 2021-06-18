@@ -9,16 +9,18 @@ export class AndroidClient extends Client {
   app: string;
   appPackage: string;
   appActivity: string;
+  otherParams: any;
   private client: any;
   private defaultClientTimout: number;
   private clientStartingTime: any;
 
-  constructor(id: string, app: string, appPackage: string, appActivity: string) {
+  constructor(id: string, app: string, appPackage: string, appActivity: string, otherParams?: any) {
     super(id);
     this.defaultClientTimout = 60000;
     this.app = app;
     this.appPackage = appPackage;
     this.appActivity = appActivity;
+    this.otherParams = otherParams;
   }
 
   async start(): Promise<any>{
@@ -38,21 +40,26 @@ export class AndroidClient extends Client {
   }
 
   // Helpers
-  generaOpts(udid: string) {
+  generaOpts() {
       return {
         path: '/wd/hub',
         port: this.port,
-        capabilities: {
-          platformName: "Android",
-          deviceName: "Android Emulator",
-          app: this.app,
-          appPackage: this.appPackage,
-          appActivity: this.appActivity,
-          automationName: "UiAutomator2",
-          udid: udid
-        }
+        capabilities: this.capabilities()
       }
   };
+
+  private capabilities(): any {
+    return {
+      platformName: "Android",
+      deviceName: "Android Emulator",
+      app: this.app,
+      appPackage: this.appPackage,
+      appActivity: this.appActivity,
+      automationName: "UiAutomator2",
+      udid: this.id,
+      ...this.otherParams
+    }
+  }
 
   async availablePort() {
     portfinder.basePort = 8000;
@@ -63,7 +70,7 @@ export class AndroidClient extends Client {
   private async startProcess() {
     console.log(`Starting process on device: ${this.id}`);
     this.client = await remote(
-      this.generaOpts(this.id), (client: any) => {
+      this.generaOpts(), (client: any) => {
         client.readSignal = this.readSignal.bind(this);
         client.writeSignal = this.writeSignal.bind(this);
         return client;
