@@ -38,7 +38,8 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
       '-f', 'pretty',
       `${this.testScenario.featureFile.filePath}`,
       '--tags', `@user${this.id}`,
-      '--world-parameters', this.worldParams()
+      '--world-parameters', this.worldParams(),
+      '--require', FileHelper.instance().pathToAbsolutePath(`${__dirname}/../steps/both.js`)
     ];
   }
 
