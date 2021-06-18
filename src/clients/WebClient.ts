@@ -14,7 +14,6 @@ export class WebClient extends Client {
 
     async start(): Promise<any> {
         this.createInbox();
-        console.log(this.capabilities());
         this.browser =  await remote({
             capabilities: this.capabilities()
         }, (client: any) => {
