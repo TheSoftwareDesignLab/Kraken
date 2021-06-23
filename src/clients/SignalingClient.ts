@@ -47,10 +47,14 @@ export abstract class SignalingClient {
     }
 
     inboxLastSignal(): any {
-        let contentsOfInbox = FileHelper.instance().contentOfFile(
-            this.currentInboxFilePath()
-        ).trim().split('\n');
-        return contentsOfInbox[contentsOfInbox.length - 1];
+        try {
+            let contentsOfInbox = FileHelper.instance().contentOfFile(
+                this.currentInboxFilePath()
+            ).trim().split('\n');
+            return contentsOfInbox[contentsOfInbox.length - 1];
+        } catch(err) {
+            return null;
+        }
     }
 
     currentInboxFilePath(): string {
