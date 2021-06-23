@@ -34,7 +34,7 @@ export abstract class SignalingClient {
     }
 
     createInbox() {
-        FileHelper.instance().createFileIfDoesNotExist(this.currentInboxFilePath());
+        FileHelper.instance().createKrakenSupportFileIfDoesNotExist(this.currentInboxFilePath());
     }
 
     resetInbox() {
@@ -58,6 +58,6 @@ export abstract class SignalingClient {
     }
 
     private inboxFilePathForId(id: string): string {
-        return `${process.cwd()}/.${id}_${Constants.INBOX_FILE_NAME}`;
+        return `${process.cwd()}/${Constants.KRAKEN_DIRECTORY}/.${id}_${Constants.INBOX_FILE_NAME}`;
     }
 }

@@ -36,7 +36,7 @@ export abstract class Client extends SignalingClient implements ClientInterface 
 
     notifyProcessState(userId: Number, state: Number) {
         let filePath: string = Constants.PROCESS_STATE_FILE_PATH[`${state}`];
-        FileHelper.instance().createFileIfDoesNotExist(filePath);
+        FileHelper.instance().createKrakenSupportFileIfDoesNotExist(filePath);
         FileHelper.instance().appendTextToFile(`${userId}`, filePath);
     }
 

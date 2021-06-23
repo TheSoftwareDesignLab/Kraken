@@ -2,16 +2,17 @@ type DynamicHash = {
     [index: string]: any
 }
 
-export const DIRECTORY_PATH = `${process.cwd()}/.device_directory`;
-export const DICTIONARY_PATH = `${process.cwd()}/dictionary.json`;
+export const KRAKEN_DIRECTORY = `.kraken`;
+export const DIRECTORY_PATH = `${process.cwd()}/${KRAKEN_DIRECTORY}/.device_directory`;
+export const DICTIONARY_PATH = `${process.cwd()}/${KRAKEN_DIRECTORY}/dictionary.json`;
 export const PROCESS_STATES = {
     ready_to_start: 0,
     ready_to_finish: 1,
     finished: 2
 };
-export const DEVICES_READY_START_PATH = `${process.cwd()}/.devices_ready_to_start`;
-export const DEVICES_READY_FINISH_PATH = `${process.cwd()}/.devices_ready_to_finish`;
-export const DEVICES_FINISHED_PATH = `${process.cwd()}/.devices_finished`;
+export const DEVICES_READY_START_PATH = `${process.cwd()}/${KRAKEN_DIRECTORY}/.devices_ready_to_start`;
+export const DEVICES_READY_FINISH_PATH = `${process.cwd()}/${KRAKEN_DIRECTORY}/.devices_ready_to_finish`;
+export const DEVICES_FINISHED_PATH = `${process.cwd()}/${KRAKEN_DIRECTORY}/.devices_finished`;
 export const INBOX_FILE_NAME = 'inbox.txt';
 export const DEFAULT_TIMEOUT_MILLISECONDS = 10000;
 export const SEPARATOR = ';';

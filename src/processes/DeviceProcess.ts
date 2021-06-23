@@ -131,7 +131,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
   }
 
   registerProcessToDirectory() {
-    FileHelper.instance().createFileIfDoesNotExist(Constants.DIRECTORY_PATH);
+    FileHelper.instance().createKrakenSupportFileIfDoesNotExist(Constants.DIRECTORY_PATH);
     FileHelper.instance().appendTextToFile(
       `${this.id}${Constants.SEPARATOR}${this.device}`, Constants.DIRECTORY_PATH
     )

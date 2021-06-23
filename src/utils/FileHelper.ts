@@ -2,6 +2,7 @@ import fs from "fs";
 import fse from "fs-extra";
 import glob from "glob";
 import path from "path";
+import * as Constants from '../utils/Constants';
 
 export class FileHelper {
   private static singletonInstance: FileHelper;
@@ -89,5 +90,10 @@ export class FileHelper {
 
   pathToAbsolutePath(filePath: string): string {
     return path.resolve(filePath);
+  }
+
+  createKrakenSupportFileIfDoesNotExist(path: string) {
+    this.createFolderIfDoesNotExist(Constants.KRAKEN_DIRECTORY);
+    this.createFileIfDoesNotExist(path);
   }
 }

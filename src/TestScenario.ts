@@ -76,7 +76,7 @@ export class TestScenario {
   }
 
   private deleteAllInboxes() {
-    FileHelper.instance().deleteFilesWithGlobPattern(`${process.cwd()}/.*_${Constants.INBOX_FILE_NAME}`);
+    FileHelper.instance().deleteFilesWithGlobPattern(`${process.cwd()}/${Constants.KRAKEN_DIRECTORY}/.*_${Constants.INBOX_FILE_NAME}`);
   }
 
   processForUserIdInDevice(userId: number, device: Device) {
