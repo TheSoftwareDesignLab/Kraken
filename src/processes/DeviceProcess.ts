@@ -36,7 +36,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     return [
       `${__dirname}/../../bin/cucumber`,
       '-f', 'pretty',
-      `${this.testScenario.featureFile.filePath}`,
+      `${this.testScenario.featureFile.filePath}`, 
       '--tags', `@user${this.id}`,
       '--world-parameters', this.worldParams(),
       '--require', FileHelper.instance().pathToAbsolutePath(`${__dirname}/../steps/both.js`)
@@ -115,6 +115,19 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     }).filter((id: Number) => {
       return id != undefined && id != null && id != NaN;
     });
+  }
+
+  static findProcessWithUserId(userId: string): any {
+    let directory = this.directory();
+    let foundProcess = directory.find((entry) => {
+      let entryParts = entry.split(Constants.SEPARATOR);
+      let entryUserId = entryParts[0];
+      return entryUserId.trim() == userId;
+    });
+    if(!foundProcess) { return; }
+
+    let processParts = foundProcess.split(Constants.SEPARATOR);
+    return processParts[1].trim();
   }
 
   registerProcessToDirectory() {

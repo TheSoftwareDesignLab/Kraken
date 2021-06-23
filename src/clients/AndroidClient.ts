@@ -7,6 +7,7 @@ export class AndroidClient extends Client {
   port: any;
   proc: any;
   app: string;
+  deviceId: string;
   appPackage: string;
   appActivity: string;
   otherParams: any;
@@ -14,10 +15,11 @@ export class AndroidClient extends Client {
   private defaultClientTimout: number;
   private clientStartingTime: any;
 
-  constructor(id: string, app: string, appPackage: string, appActivity: string, otherParams?: any) {
+  constructor(deviceId: string, app: string, appPackage: string, appActivity: string, otherParams?: any, id?: string) {
     super(id);
     this.defaultClientTimout = 60000;
     this.app = app;
+    this.deviceId = deviceId;
     this.appPackage = appPackage;
     this.appActivity = appActivity;
     this.otherParams = otherParams;
@@ -56,7 +58,7 @@ export class AndroidClient extends Client {
       appPackage: this.appPackage,
       appActivity: this.appActivity,
       automationName: "UiAutomator2",
-      udid: this.id,
+      udid: this.deviceId,
       ...this.otherParams
     }
   }
