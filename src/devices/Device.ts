@@ -1,8 +1,7 @@
 const { randomBytes } = require('crypto');
-import { FileHelper } from '../utils/FileHelper';
 import * as Constants from '../utils/Constants';
 
-export class Device {
+export abstract class Device {
   id: string;
   model: string;
 
@@ -18,4 +17,8 @@ export class Device {
   toString(): string {
     return `${this.id}${Constants.SEPARATOR}${this.model}${Constants.SEPARATOR}${this.constructor.name}`
   }
+
+  abstract screenSize(): { height: number, width: number };
+  abstract sdkVersion(): number;
+  abstract orientation(): number;
 }

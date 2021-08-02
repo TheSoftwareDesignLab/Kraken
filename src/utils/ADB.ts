@@ -26,6 +26,23 @@ export class ADB {
     return devices;
   }
 
+  deviceScreenSize(deviceId: string): number[] {
+    let adbScreenSize = execSync(`adb -s ${deviceId} shell wm size`).toString();
+    return this.extractDeviceScreenSizeInfo(adbScreenSize);
+  }
+
+  deviceOrientation(deviceId: string): string {
+    return execSync(
+      `adb -s ${deviceId} shell dumpsys input | grep 'SurfaceOrientation' | awk '{ print $2 }'`
+    ).toString();;
+  }
+
+  deviceSdkVersion(deviceId: string): string {
+    return execSync(
+      `adb -s ${deviceId} shell getprop ro.build.version.sdk`
+    ).toString();;
+  }
+
   private extractDeviceIdFromLine(line: string) {
     if(line.match(/device(?!s)/)) {
       return line.split(' ')[0]
@@ -39,5 +56,13 @@ export class ADB {
         return match[1];
       }
     }
+  }
+
+  private extractDeviceScreenSizeInfo(line: string): number[] {
+    let parts = line.trim().split(' ');
+    let size = parts[parts.length - 1];
+    if(!size.includes('x')) { return [0, 0]; }
+    
+    return size.split('x').map((part) => { return Number(part); });
   }
 }

@@ -20,6 +20,11 @@ export const DEFAULT_PROCESS_START_TIMEOUT_MILLISECONDS = 600000 // 10 minutes
 export const DEFAULT_PROCESS_FINISH_TIMEOUT_SECONDS = 600000 // 10 minutes
 export const DEFAULT_PROCESS_TIMEOUT_SECONDS = 600000 // 10 minutes
 export const MOBILE_INFO_PATH = `${process.cwd()}/mobile.json`;
+export const REPORT_PATH = `${process.cwd()}/reports`;
+export const DEVICES_REPORT_FILE_NAME = 'devices.json';
+export const ANDROID_PORTRAIT = 0;
+export const ANDROID_LANDSCAPE = 1;
+export const WEB_PORTRAIT = 0;
 
 let process_state_file_paths: DynamicHash = {};
 process_state_file_paths[`${PROCESS_STATES.ready_to_start}`] = DEVICES_READY_START_PATH;

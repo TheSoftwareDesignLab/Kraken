@@ -11,18 +11,23 @@ import * as Constants from './utils/Constants';
 import { FileHelper } from './utils/FileHelper';
 import { Reporter } from './reports/Reporter';
 import { KrakenMobile } from './KrakenMobile';
+const { randomBytes } = require('crypto');
 
 export class TestScenario {
   featureFile: FeatureFile;
   reporter: Reporter;
   processes: DeviceProcess[];
   krakenApp: KrakenMobile;
+  executionId: string;
+  devices: Device[];
 
   constructor(featureFile: FeatureFile, krakenApp: KrakenMobile) { 
     this.featureFile = featureFile;
     this.krakenApp = krakenApp;
     this.reporter = new Reporter(this);
     this.processes = [];
+    this.executionId = randomBytes(10).toString('hex');
+    this.devices = [];
   }
 
   public async run() {
@@ -42,14 +47,15 @@ export class TestScenario {
     this.deleteAllInboxes();
     this.deleteSupportFilesAndDirectories();
 
-    let devices: Device[] = this.sampleDevices();
-    devices.forEach((device: AndroidDevice, index: number) => {
+    this.devices = this.sampleDevices();
+    this.devices.forEach((device: AndroidDevice, index: number) => {
       if (!device) { return; }
 
       let process = this.processForUserIdInDevice(index + 1, device);
       process.registerProcessToDirectory();
       this.processes.push(process);
     });
+    this.reporter.createReportFolderRequirements();
   }
 
   private execute() {
@@ -61,6 +67,7 @@ export class TestScenario {
   private afterExecute() {
     this.deleteSupportFilesAndDirectories();
     this.notifyScenarioFinished();
+    this.reporter.saveReport();
   }
 
   private notifyScenarioFinished() {
