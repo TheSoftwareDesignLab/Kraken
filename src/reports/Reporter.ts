@@ -1,4 +1,6 @@
+import { AndroidDevice } from "../devices/AndroidDevice";
 import { Device } from "../devices/Device";
+import { WebDevice } from "../devices/WebDevice";
 import { TestScenario } from "../TestScenario";
 import * as Constants from '../utils/Constants';
 import { FileHelper } from '../utils/FileHelper';
@@ -17,7 +19,8 @@ export class Reporter {
     }
 
     saveReport() {
-        console.log('TERMINE');
+        this.generateEachDeviceReport();
+        this.generateGeneralReport();
     }
 
     private createReportExecutionReportFolder() {
@@ -66,5 +69,33 @@ export class Reporter {
                 type: device.constructor.name
             }
         })
+    }
+
+    private generateEachDeviceReport() {
+        this.testScenario.devices.forEach((device: Device, index: number) => {
+            this.generateDeviceReport(device, index + 1);
+        });
+    }
+
+    private generateDeviceReport(device: Device, userId: number) {
+        if (device instanceof AndroidDevice) {
+            this.generateMobileReport(device, userId);
+        } else if (device instanceof WebDevice) {
+            this.generateWebReport(device, userId);
+        } else {
+            throw new Error('ERROR: Platform not supported');
+        }
+    }
+
+    private generateMobileReport(device: Device, userId: number) {
+
+    }
+
+    private generateWebReport(device: Device, userId: number) {
+
+    }
+
+    private generateGeneralReport() {
+
     }
 }
