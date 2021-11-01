@@ -12,6 +12,7 @@ exports.default = async function run() {
   try {
     result = await cli.run();
   } catch (error) {
+    console.log(error);
     process.exit(1);
   }
 
