@@ -25,7 +25,6 @@ export class AndroidDevice extends Device {
 
   orientation(): number {
     let adbOrientation = ADB.instance().deviceOrientation(this.id);
-    console.log(adbOrientation);
     return Number(adbOrientation.trim());
   }
 }

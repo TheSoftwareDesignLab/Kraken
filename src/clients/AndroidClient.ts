@@ -103,6 +103,7 @@ export class AndroidClient extends Client {
 
   private onStderr(data: any) {
     let dataText: string = data.toString();
+    console.log(dataText);
     console.log(`Error starting process on device: ${this.id}`);
     this.proc.kill('SIGINT');
   }
