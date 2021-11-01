@@ -17,7 +17,8 @@ export class DependencyChecker {
         let notInstalledText = 'Not installed';
         console.log('Checking dependencies...');
         console.log(`Android SDK [${this.isAndroidSdkInstalled() ? installedText : notInstalledText}] (Required only for mobile testing - ANDROID_HOME)`)
-        console.log(`Android AAPT [${this.isAaptInstalled() ? installedText : notInstalledText}] (Required only for Kraken's info command - ANDROID_HOME/build-tools)`)
+        console.log(`Android ADB [${this.isAdbInstalled() ? installedText : notInstalledText}] (Required only for mobile testing - ANDROID_HOME/tools and ANDROID_HOME/platform-tools)`)
+        console.log(`Android AAPT [${this.isAaptInstalled() ? installedText : notInstalledText}] (Required only for Kraken's info command - ANDROID_HOME/build-tools/:version)`)
         console.log(`Appium [${this.isAppiumInstalled() ? installedText : notInstalledText}] (Required only for mobile testing)`)
         console.log(`Java [${this.isJavaInstalled() ? installedText : notInstalledText}] (JAVA_HOME)`)
         console.log('Done.')
@@ -33,6 +34,15 @@ export class DependencyChecker {
             let aaptVersion = execSync('aapt version');
             return aaptVersion != undefined && aaptVersion != null;
         } catch(error) {
+            return false;
+        }
+    }
+
+    isAdbInstalled(): Boolean {
+        try {
+            let adbVersion = execSync('adb version');
+            return adbVersion != undefined && adbVersion != null;
+        } catch (error) {
             return false;
         }
     }
