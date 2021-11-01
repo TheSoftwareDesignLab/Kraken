@@ -36,7 +36,7 @@ export class AAPT {
         if (activity) {
             let match: any = activity.match(/name=(.*) label/);
             if (match && match.length > 1) {
-                activity = match[1].trim().replaceAll('\'', '');
+                activity = match[1].trim().replace(/\'/g, '');
             }
         };
         return activity;
@@ -51,7 +51,7 @@ export class AAPT {
         if (appPackage) {
             let match: any = appPackage.match(/name=(.*) versionCode/);
             if (match && match.length > 1) {
-                appPackage = match[1].trim().replaceAll('\'', '');
+                appPackage = match[1].trim().replace(/\'/g, '');
             }
         };
         return appPackage;
