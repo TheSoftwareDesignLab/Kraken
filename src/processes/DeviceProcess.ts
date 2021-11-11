@@ -56,13 +56,22 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     });
   }
 
+  apkPath(): String {
+    let jsonMobileInfo = this.mobileInfoAsJSON();
+    return FileHelper.instance().pathToAbsolutePath(jsonMobileInfo.apk_path)
+  }
+
+  private mobileInfoAsJSON(): any {
+    let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
+    return JSON.parse(mobileInfo);
+  }
+
   private mobileInfoForProcess() {
     if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) { return; }
 
-    let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
-    let jsonMobileInfo = JSON.parse(mobileInfo);
+    let jsonMobileInfo = this.mobileInfoAsJSON();
     return {
-      apk_path: FileHelper.instance().pathToAbsolutePath(jsonMobileInfo.apk_path),
+      apk_path: this.apkPath(),
       apk_package: jsonMobileInfo.apk_package,
       apk_launch_activity: jsonMobileInfo.apk_launch_activity
     }

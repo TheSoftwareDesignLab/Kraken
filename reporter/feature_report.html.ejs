@@ -191,7 +191,7 @@
                           <%= device.model %> - <%= device.id %>
                         </td>
                         <td>
-                          <% if(device.type == 'AndroidDevice') { %>
+                          <% if(device.constructor.name == 'AndroidDevice') { %>
                             <i class="fa fa-android fa-lg"><span>android</span></i>
                             <% } else { %>
                               <i class="fa fa-globe fa-lg"><span>web</span></i>

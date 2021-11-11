@@ -5,6 +5,9 @@ import { TestScenario } from "../TestScenario";
 import * as Constants from '../utils/Constants';
 import { FileHelper } from '../utils/FileHelper';
 import ejs from 'ejs';
+import { DeviceProcess } from "../processes/DeviceProcess";
+import { AndroidProcess } from "../processes/AndroidProcess";
+import { WebProcess } from "../processes/WebProcess";
 
 export class Reporter {
     testScenario: TestScenario;
@@ -74,34 +77,43 @@ export class Reporter {
     }
 
     private generateEachDeviceReport() {
-        this.testScenario.devices.forEach((device: Device, index: number) => {
-            if (!device) { return; }
+        this.testScenario.processes.forEach((process: DeviceProcess, index: number) => {
+            if (!process || !process.device) { return; }
 
-            this.generateDeviceReport(device, index + 1);
+            this.generateProcessReport(process, index + 1);
         });
     }
 
-    private generateDeviceReport(device: Device, userId: number) {
-        if (device instanceof AndroidDevice) {
-            this.generateMobileReport(device, userId);
-        } else if (device instanceof WebDevice) {
-            this.generateWebReport(device, userId);
+    private generateProcessReport(process: DeviceProcess, userId: number) {
+        if (process instanceof AndroidProcess) {
+            this.generateMobileReport(process, userId);
+        } else if (process instanceof WebProcess) {
+            this.generateWebReport(process, userId);
         } else {
             throw new Error('ERROR: Platform not supported');
         }
     }
 
-    private generateMobileReport(device: Device, userId: number) {
+    private generateMobileReport(process: DeviceProcess, userId: number) {
+        let data = {
+            apk_path: process.apkPath()
+        }
+        this.generateDeviceReport(data, process.device, userId)
     }
 
-    private generateWebReport(device: Device, userId: number) {    
+    private generateWebReport(process: DeviceProcess, userId: number) {    
+        let data = {}
+        this.generateDeviceReport(data, process.device, userId)
+    }
+
+    private generateDeviceReport(baseData: any, device: Device, userId: number) {
         let cucumberFile = `${Constants.REPORT_PATH}/${this.testScenario.executionId}/${device.id}/${Constants.FILE_REPORT_NAME}`;
         let features = JSON.parse(FileHelper.instance().contentOfFile(cucumberFile));
-        var data = {
+        let data = {
             apk_path: null,
             features: features,
             total_scenarios: this.totalScenariosForFeatures(features),
-            device: device, 
+            device: device,
             total_failed_scenarios_percentage: this.totalFailedScenariosPercentageForFeatures(features),
             total_passed_scenarios_percentage: this.totalPassedScenariosPercentageForFeatures(features),
             total_passed_features_percentage: this.totalPassedFeaturesPercentageForFeatures(features),
@@ -114,7 +126,8 @@ export class Reporter {
             passed_scenarios: this.passedScenariosForFeature.bind(this),
             failed_scenarios: this.failedScenariosForFeature.bind(this),
             feature_duration: this.durationForFeature.bind(this),
-            format_duration: this.formatDurationOfFeature.bind(this)
+            format_duration: this.formatDurationOfFeature.bind(this),
+            ...baseData
         }
         let template = FileHelper.instance().contentOfFile(
             `${__dirname}/../../reporter/feature_report.html.ejs`
