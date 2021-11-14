@@ -1,0 +1,160 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Report</title>
+
+  <!-- Dependencies -->
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link href="./assets/css/font-awesome.min.css" rel="stylesheet">
+  <link href="./assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <link href="./assets/css/index.css" rel="stylesheet">
+  <script src="./assets/js/d3.v3.min.js"></script>
+  <script src="./assets/js/first-sankey.js"></script>
+  <script src="./assets/js/d3.chart.min.js"></script>
+  <script src="./assets/js/sankey.js"></script>
+</head>
+
+<body>
+    <div class="main_conainer">
+      <div class="container-fluid devices-list">
+        <div class="x_title">
+          <h2>Devices List</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="row">
+          <% for(var i=0; i < devices.length; i++) { %>
+            <div class="ui-card col-md-3">
+              <div class="container device-container">
+                <div class="row device-os-icon">
+                  <% if(devices[i].type == "AndroidDevice") { %>
+                    <i class="fa fa-android fa-lg"></i>
+                  <% } else { %>
+                    <i class="fa fa-globe fa-lg"></i>
+                  <% } %>
+                </div>
+                <div class="row device-title">
+                  <%= devices[i].model %>
+                </div>
+                <div class="row device-info">ID: <%= devices[i].id %>
+                </div>
+                
+                  <div class="row device-info">SDK Version: <%= devices[i].sdk %>
+                  </div>
+                  <div class="row device-info">
+                    Screen Size: 
+                    <% if(devices[i].type=="AndroidDevice" ) { %>
+                      <%= devices[i].screen_height %>x<%= devices[i].screen_width %>
+                    <% } else { %>
+                      --
+                    <% } %>
+                  </div>
+                  
+                    <div class="row device-info result-btn">
+                      <a href='<%= `./${devices[i].id}/feature_report.html` %>'>See Results</a>
+                    </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      <% Object.keys(featuresReport).forEach((key, index) => { %>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="x_title">
+              <h2 id="chart_row<%= index + 1 %>"></h2>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="row feature-flow">
+            <div id="chart<%= index + 1 %>"></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <script src="./assets/js/jquery-3.2.1.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script>
+        d3.json("./assets/js/data.json", function (error, json) {
+            for (var i = 0; i < json.length; i++) {
+              let jsonObject = json[i];
+              let devicesSet = new Set([]);
+              let devicesHash = {};
+              for (var k = 0; k < jsonObject.links.length; k++) {
+                let link = jsonObject.links[k];
+                devicesSet.add(link.owner);
+                devicesHash[link.owner] = link.owner_model
+              }
+              devices = Array.from(devicesSet);
+              // GRAPH
+              let devicesLength = devices.length > 1 ? (devices.length - 1) : 1;
+              var height = 150 * devicesLength;
+              var c20c = d3.scale.category10();
+              d3.select("#chart_row" + (i + 1))
+                .text(jsonObject["name"])
+
+              let chartId = "#chart" + (i + 1);
+              var svg = d3.select(chartId)
+                .style("height", height + "px")
+                .append("svg");
+
+              var chart = svg.chart("Sankey.Path");
+
+              chart
+                .name(label)
+                .colorNodes(function (name, node) {
+                  color = "#ff6961";
+                  if (node.id == "empty") {
+                    color = "#9f9fa3"
+                  } else if (node.status === "passed") {
+                    color = "#77dd77";
+                  }
+                  return color;
+                })
+                .colorLinks(function (link) {
+                  return c20c(link.owner);
+                })
+                .nodeWidth(10)
+                .nodePadding(10)
+                .spread(true)
+                .draw(jsonObject);
+
+              // LEGEND
+              let legendRectSize = 10;
+              let legendSpacing = 10
+
+              var legend = svg
+                .append("g")
+                .selectAll("g")
+                .data(Object.keys(devicesHash))
+                .enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr('transform', function (d, i) {
+                  var height = legendRectSize;
+                  var x = 10;
+                  var y = 10 + (i * height) + i * 5;
+                  return 'translate(' + x + ',' + y + ')';
+                });
+
+              legend.append('rect')
+                .attr('width', legendRectSize)
+                .attr('height', legendRectSize)
+                .style('fill', function (d) {
+                  return c20c(d);
+                })
+                .style('opacity', .2)
+
+              legend.append('text')
+                .attr('x', legendRectSize + 5)
+                .attr('y', 10)
+                .text(function (d) { return devicesHash[d]; });
+            }
+          });
+    </script>
+</body>
+
+</html>

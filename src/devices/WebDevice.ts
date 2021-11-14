@@ -8,7 +8,7 @@ export class WebDevice extends Device {
 
   static factoryCreate() {
     return new WebDevice(
-      Device.generateRandomId(), 'web'
+      Device.generateRandomId(), 'Web'
     );
   }
 

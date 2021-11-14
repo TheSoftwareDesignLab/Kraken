@@ -26,6 +26,7 @@ export const ANDROID_PORTRAIT = 0;
 export const ANDROID_LANDSCAPE = 1;
 export const WEB_PORTRAIT = 0;
 export const FILE_REPORT_NAME = 'report.json';
+export const D3_DATA_FILE_NAME = 'data.json';
 
 let process_state_file_paths: DynamicHash = {};
 process_state_file_paths[`${PROCESS_STATES.ready_to_start}`] = DEVICES_READY_START_PATH;
