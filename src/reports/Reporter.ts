@@ -214,8 +214,8 @@ export class Reporter {
 
                             failed = step.result.status != this.PASSED
                             let image = null;
-                            if (step.after != null && step.after != undefined && step.after.length > 0 && step.after[0].embeddings != null && step.after[0].embeddings != undefined && step.after[0].embeddings.length > 0) {
-                                image = step.after[0].embeddings[0].data
+                            if (step.embeddings != null && step.embeddings != undefined && step.embeddings.length > 0) {
+                                image = step.embeddings[0].data
                             }
                             features[feature.id].devices[key].push({
                                 name: `${step.keyword} ${step.name || ''}`,

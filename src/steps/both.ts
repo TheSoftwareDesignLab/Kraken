@@ -1,4 +1,4 @@
-import { Given, When, Then } from '@cucumber/cucumber';
+import { Given, When, Then, AfterStep } from '@cucumber/cucumber';
 import { DeviceProcess } from '../processes/DeviceProcess';
 
 When('I wait', async function (this:any) {
@@ -24,4 +24,11 @@ When('I wait for a signal containing {string}', async function (this: any, signa
 When('I wait for a signal containing {string} for {int} seconds', async function (this: any, signal: any, seconds: any) {
     await this.driver.readSignal(signal, 1000 * seconds)
     return
+});
+
+AfterStep(async function (this: any, world: any) {
+    let screenshot = await this.driver.saveScreenshot(
+        `./reports/${this.testScenarioId}/screenshots/${Math.round(+new Date() / 1000)}.png`
+    );
+    this.attach(screenshot, 'image/png')
 });

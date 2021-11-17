@@ -47,6 +47,7 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
   private worldParams(): string {
     return JSON.stringify({
       id: this.id,
+      testScenarioId: this.testScenario.executionId,
       device: {
         id: this.device.id,
         model: this.device.model,
