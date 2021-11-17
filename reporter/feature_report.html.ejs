@@ -170,7 +170,7 @@
                     <% features.forEach((feature) => { %>
                       <tr>
                         <td>
-                          <a href='<%= "./features_report/#{feature_id(f)}.html" %>'>
+                          <a href='<%= `./features_report/${featureId(feature)}.html` %>'>
                             <%= feature.name %>
                           </a>
                         </td>

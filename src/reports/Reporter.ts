@@ -8,6 +8,7 @@ import ejs from 'ejs';
 import { DeviceProcess } from "../processes/DeviceProcess";
 import { AndroidProcess } from "../processes/AndroidProcess";
 import { WebProcess } from "../processes/WebProcess";
+const { createHash } = require('crypto');
 
 export class Reporter {
     testScenario: TestScenario;
@@ -81,6 +82,39 @@ export class Reporter {
         })
     }
 
+    private generateFeaturesReport(features: any, device: Device) {
+        features.forEach((feature: any) => {
+            this.generateFeatureReport(feature, device);
+        });
+    }
+
+    private generateFeatureReport(feature: any, device: Device) {
+        let data = {
+            feature: feature,
+            featurePassedScenariosPercentage: this.featurePassedScenariosPercentage.bind(this),
+            featureFailedScenariosPercentage: this.featureFailedScenariosPercentage.bind(this),
+            passedScenarios: this.passedScenarios.bind(this),
+            failedScenarios: this.failedScenarios.bind(this),
+            feature_duration: this.durationForFeature.bind(this),
+            format_duration: this.formatDurationOfFeature.bind(this),
+            PASSED: this.PASSED
+        };
+        let template = FileHelper.instance().contentOfFile(
+            `${__dirname}/../../reporter/scenario_report.html.ejs`
+        )
+        let html = ejs.render(template, data);
+        let folderName = `${Constants.REPORT_PATH}/${this.testScenario.executionId}/${device.id}/features_report/`;
+        let fileName = `${folderName}${this.featureId(feature)}.html`;
+        FileHelper.instance().createFolderIfDoesNotExist(folderName);
+        FileHelper.instance().createFileIfDoesNotExist(fileName);
+        FileHelper.instance().createFileIfDoesNotExist(fileName);
+        FileHelper.instance().appendTextToFile(html, fileName);
+    }
+
+    private featureId(feature: any): any {
+        return createHash('sha256').update(`${feature.id.trim()}${feature.uri.trim()}`).digest('hex');
+    }
+
     private generateEachDeviceReport() {
         this.testScenario.processes.forEach((process: DeviceProcess, index: number) => {
             if (!process || !process.device) { return; }
@@ -132,6 +166,7 @@ export class Reporter {
             failed_scenarios: this.failedScenariosForFeature.bind(this),
             feature_duration: this.durationForFeature.bind(this),
             format_duration: this.formatDurationOfFeature.bind(this),
+            featureId: this.featureId.bind(this),
             ...baseData
         }
         let template = FileHelper.instance().contentOfFile(
@@ -141,6 +176,7 @@ export class Reporter {
         let reportFilePath = `${Constants.REPORT_PATH}/${this.testScenario.executionId}/${device.id}/feature_report.html`;
         FileHelper.instance().createFileIfDoesNotExist(reportFilePath);
         FileHelper.instance().appendTextToFile(html, reportFilePath);
+        this.generateFeaturesReport(features, device);
     }
 
     private generateGeneralReport() {
@@ -374,6 +410,18 @@ export class Reporter {
         return count;
     }
 
+    private featurePassedScenariosPercentage(feature: any): number {
+        return Math.round(
+            (this.passedScenarios(feature).length / feature.elements.length)
+        ) * 100.00;
+    }
+
+    private featureFailedScenariosPercentage(feature: any): number {
+        return Math.round(
+            (this.failedScenarios(feature).length / feature.elements.length)
+        ) * 100.00;
+    }
+
     private totalPassedScenariosPercentageForFeatures(features: any): number {
         return parseFloat(
             (this.totalPassedScenariosForFeatures(features) / this.totalScenariosForFeatures(features)).toFixed(2)
@@ -463,6 +511,34 @@ export class Reporter {
                 }
             });
             return !allPassed;
+        });
+    }
+
+    private passedScenarios(feature: any): any {
+        let scenarios: any = feature.elements;
+        return scenarios.filter((scenario: any) => {
+            let allPassed: boolean = true;
+            let steps = scenario.steps;
+            steps.forEach((step: any) => {
+                if(step.result && step.result.status != this.PASSED) {
+                    allPassed = false;
+                }
+            });
+            return allPassed;
+        });
+    }
+
+    private failedScenarios(feature: any): any {
+        let scenarios: any = feature.elements;
+        return scenarios.filter((scenario: any) => {
+            let allFailed: boolean = true;
+            let steps = scenario.steps;
+            steps.forEach((step: any) => {
+                if (step.result && step.result.status == this.PASSED) {
+                    allFailed = false;
+                }
+            });
+            return allFailed;
         });
     }
 
