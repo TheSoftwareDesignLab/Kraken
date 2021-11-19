@@ -27,13 +27,8 @@ When('I wait for a signal containing {string} for {int} seconds', async function
 });
 
 AfterStep(async function (this: any, world: any) {
-    try {
-        let screenshot = await this.driver.saveScreenshot(
-            `./reports/${this.testScenarioId}/screenshots/${Math.round(+new Date() / 1000)}.png`
-        );
-        this.attach(screenshot, 'image/png');
-    } catch {
-        console.log("KRAKEN: Could not take screenshot");
-    }
-    return;
+    let screenshot = await this.driver.saveScreenshot(
+        `./reports/${this.testScenarioId}/screenshots/${Math.round(+new Date() / 1000)}.png`
+    );
+    this.attach(screenshot, 'image/png')
 });
