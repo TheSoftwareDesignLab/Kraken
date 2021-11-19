@@ -1,0 +1,28 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+header ol li {
+    border-right: 0px solid #e0e0e0;
+    float: none;
+    width: auto;
+    height: auto;
+}
+
+section p {
+    text-align: justify;
+}
+
+footer p {
+    margin: 0;
+}
+
+body {
+    padding-top: 20px; 
+}
+
+ul {
+    padding-left: 10px;
+    font-size: 13px;
+}
