@@ -136,8 +136,8 @@
                       <%= format_duration(step.result.duration) %>
                     </span>
                     <% if(step.result.error_message) { %>
-                      <a href='#error<%= s["line"] %>-error' data-toggle="collapse">+ Show Error</a>
-                      <div id='error<%= s["line"]%>-error' class="scenario-step-collapse collapse">
+                      <a href='#error<%= step.line %>-error' data-toggle="collapse">+ Show Error</a>
+                      <div id='error<%= step.line %>-error' class="scenario-step-collapse collapse">
                       <pre class=info><%= step.result.error_message %></pre>
                       </div>
                     <% } %>
