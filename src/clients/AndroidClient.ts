@@ -75,6 +75,7 @@ export class AndroidClient extends Client {
       this.generaOpts(), (client: any) => {
         client.readSignal = this.readSignal.bind(this);
         client.writeSignal = this.writeSignal.bind(this);
+        client.lastSignal = this.inboxLastSignal.bind(this);
         return client;
       }
     );

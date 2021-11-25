@@ -19,6 +19,7 @@ export class WebClient extends Client {
         }, (client: any) => {
             client.readSignal = this.readSignal.bind(this);
             client.writeSignal = this.writeSignal.bind(this);
+            client.lastSignal = this.inboxLastSignal.bind(this);
             return client;
         });
         return this.browser;
