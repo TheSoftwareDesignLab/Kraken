@@ -174,6 +174,7 @@ npx kraken-node apk-info <APK_PATH>
 
 | Application  | Video | Feature File | Steps Definition | Properties file | Settings File | Report Link |
 |:-------------|:-------------|:-------------|:------------------|:-------|:-------|:-------|
+| Kahoot | | [.feature](/examples/kahoot/kahoot.feature) | [mobileSteps](/examples/kahoot/features/mobile/step_definitions/step.js) [webSteps](/examples/kahoot/features/web/step_definitions/step.js)| --- | --- | --- | [report](/examples/kahoot/report/index.html) |
 | Infinite Words | [video](https://www.youtube.com/watch?v=4lX7mO80w-4&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=3&t=0s)|[.feature](/examples/infinite-words/infinite_words.feature)|--- | ---  | ---  | [report](/examples/infinite-words/report/index.html) |
 | QuizUp | [video](https://www.youtube.com/watch?v=2mhZVTK0r6k&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=4&t=1s) | [.feature](/examples/quizup/quizup.feature)|[stepsDef](/examples/quizup/step_definitions/kraken_steps.rb) | --- |  --- | [report](/examples/quizup/report/index.html)  |
 | Spotify/Shazam | [video](https://www.youtube.com/watch?v=7AKsfY1KFX0&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=5&t=0s) | [.feature](/examples/shazam/shazam.feature)|[stepsDef](/examples/shazam/step_definitions/kraken_steps.rb) | [.json](/examples/shazam/kraken_properties.json) |  [.json](/examples/shazam/kraken_mobile_settings.json) | [report](/examples/shazam/report/index.html)  |
