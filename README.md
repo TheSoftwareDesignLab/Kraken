@@ -188,10 +188,6 @@ npx kraken-node apk-info <APK_PATH>
 | Picap | [video](https://www.youtube.com/watch?v=RozQrmH_Z5k&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=7&t=3s) | [.feature](/examples/picap/picap.feature)|[stepsDef](/examples/picap/step_definitions/kraken_steps.rb) | [.json](/examples/picap/kraken_properties.json) |  --- | [report](/examples/picap/report/index.html)  |
 | AskFM | [video](https://www.youtube.com/watch?v=d9Gbdx8kFX8&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=8&t=0s) | [.feature](/examples/askfm/askfm.feature)|[stepsDef](/examples/askfm/step_definitions/kraken_steps.rb) | --- |  --- | [report](/examples/askfm/report/index.html)  |
 | Stick Men Fight | [video](https://www.youtube.com/watch?v=36OJKNj0nSo&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=9&t=4s) | [.feature](/examples/stick/stick.feature)|--- | --- |  --- | [report](/examples/stick/report/index.html)  |
-| Tic Tac Toe | [video](https://www.youtube.com/watch?v=F9pDJDYsL_w&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=10&t=2s) | [.feature](/examples/tictactoe/tictactoe.feature)|[stepsDef](/examples/tictactoe/step_definitions/kraken_steps.rb) | --- |  --- | [report](/examples/tictactoe/report/index.html)  |
-| Tumblr | [video](https://www.youtube.com/watch?v=eqFej2uJz4k&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=11&t=3s) | [.feature](/examples/tumblr/tumblr.feature)|[stepsDef](/examples/tumblr/step_definitions/kraken_steps.rb) | [.json](/examples/tumblr/kraken_properties.json) |  --- | [report](/examples/tumblr/report/index.html)  |
-| F3 | [video](https://www.youtube.com/watch?v=vESh6Jyp-so&list=PLF5U8kfVgRcJ3RCHt7cWmwlqN93brbVW-&index=12&t=0s) | [.feature](/examples/f3/f3.feature)|[stepsDef](/examples/f3/step_definitions/kraken_steps.rb) | [.json](/examples/f3/kraken_properties.json) |  --- | [report](/examples/f3/report/index.html)  |
-
   
     
 ---
