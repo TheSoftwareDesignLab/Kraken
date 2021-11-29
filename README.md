@@ -4,7 +4,7 @@ Kraken is an open source automated android and web E2E testing tool that support
 
 # Video
 
-<iframe width="500" height="282" src="https://youtu.be/gf95lafrD8M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="500" height="282" src="https://www.youtube.com/embed/gf95lafrD8M" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Technologies
 
