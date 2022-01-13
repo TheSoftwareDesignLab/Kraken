@@ -7,7 +7,7 @@ Kraken is an open source automated android and web E2E testing tool that support
 # Video
 [![krakenThumbnail](./reporter/assets/images/krakenThumbnail.jpg)](https://youtu.be/gf95lafrD8M)
 
-**Kraken is partially supported by a Google Latin America Research Award (LARA) 2018**
+**Kraken is partially supported by a Google Latin America Research Award (LARA) 2018 - 2021**
 
 # Technologies
 
