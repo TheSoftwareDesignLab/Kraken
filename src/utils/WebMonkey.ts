@@ -1,3 +1,5 @@
+import faker from '@faker-js/faker';
+
 export class WebMonkey {
   driver: any;
 
@@ -40,7 +42,7 @@ export class WebMonkey {
     ];
     await this.highlightElement(randomInput);
     await randomInput.click()
-    await this.driver.keys(this.randomText());
+    await this.driver.keys(faker.lorem.paragraph());
     return await this.removeElementHighlight(randomInput);
   }
 
@@ -58,12 +60,5 @@ export class WebMonkey {
       element,
       ''
     );
-  }
-
-  private randomText(): String {
-    let sampleText = ["afasf", "gfdsd"]
-    return sampleText[
-      Math.floor(Math.random() * sampleText.length)
-    ];
   }
 }
