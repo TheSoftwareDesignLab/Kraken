@@ -1,5 +1,4 @@
 import { Given, When, Then, AfterStep } from '@cucumber/cucumber';
-import { DeviceProcess } from '../processes/DeviceProcess';
 
 When('I wait', async function (this:any) {
     await new Promise(r => setTimeout(r, 5000));

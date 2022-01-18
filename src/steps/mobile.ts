@@ -9,4 +9,3 @@ When('I click view with xpath {string}', async function (this: any, xpath: any) 
     let view = await this.driver.$(xpath);
     return await view.click();
 });
-
