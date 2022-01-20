@@ -28,6 +28,7 @@ export const WEB_PORTRAIT = 0;
 export const FILE_REPORT_NAME = 'report.json';
 export const D3_DATA_FILE_NAME = 'data.json';
 export const WEB_DEFAULT_TIMEOUT = 0.5;
+export const PROPERTIES_PATH = `${process.cwd()}/properties.json`;
 
 let process_state_file_paths: DynamicHash = {};
 process_state_file_paths[`${PROCESS_STATES.ready_to_start}`] = DEVICES_READY_START_PATH;
