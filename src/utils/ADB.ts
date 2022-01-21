@@ -34,7 +34,11 @@ export class ADB {
   deviceOrientation(deviceId: string): string {
     return execSync(
       `adb -s ${deviceId} shell dumpsys input | grep 'SurfaceOrientation' | awk '{ print $2 }'`
-    ).toString();;
+    ).toString();
+  }
+
+  startMonkeyWithEvents(events: number, deviceId: string, apkPackage: string) {
+    execSync(`adb -s ${deviceId} shell monkey -p ${apkPackage} -v ${events}`)
   }
 
   deviceSdkVersion(deviceId: string): string {
