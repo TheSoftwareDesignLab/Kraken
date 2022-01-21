@@ -9,12 +9,11 @@ defineParameterType({
         if (PropertyManager.stringIsAProperty(string)) {
             finalString = finalString.replace('<', '').replace('>', '');
             finalString = PropertyManager.instance().getProperty(finalString);
-        } else if (KrakenFaker.stringIsAFaker(string)) {
-
         } else if (KrakenFaker.stringIsAFakerReuse(string)) {
-
+            finalString = KrakenFaker.instance().reuseValueForKey(finalString);
+        } else if (KrakenFaker.stringIsAFaker(string)) {
+            finalString = KrakenFaker.instance().generateValueForKey(finalString);
         }
-
         return finalString;
     },
     name: "kraken-string",

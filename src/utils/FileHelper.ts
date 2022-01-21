@@ -84,6 +84,10 @@ export class FileHelper {
     fs.appendFileSync(path, `${text}\n`);
   }
 
+  writeTextToFile(text: string, path: string) {
+    fs.writeFileSync(path, `${text}\n`);
+  }
+
   isValidApk(apkPath: string): Boolean {
     return apkPath.slice(apkPath.length - 4) === '.apk';
   }

@@ -33,6 +33,6 @@ export class PropertyManager {
     }
 
     let fileContent = FileHelper.instance().contentOfFile(Constants.PROPERTIES_PATH);
-    return JSON.parse(fileContent)
+    return JSON.parse(fileContent);
   }
 }
