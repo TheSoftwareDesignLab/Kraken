@@ -144,19 +144,17 @@ writeSignal(signal)
 
 Writes signal content to a device inbox.
 
-### Mobile steps
-
-To see a list of all mobile steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/mobile.ts)
-
-### Web steps
-
-To see a list of all web steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/web.ts)
-
 ### Creating new steps
 
 To create new steps it depends the platform that is going to implement the step, in the case of Mobile testing you should add your custom steps on the ***features/mobile/step_definitions/step.js*** file. On the other hand, when adding a custom step for Web testing you should add the step in the file ***features/web/step_definitions/step.js.***
 
-# Specifying Android's APK file for the test
+# 📱Kraken Mobile
+
+### Mobile steps
+
+To see a list of all mobile steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/mobile.ts)
+
+### Specifying Android's APK file for the test
 
 In case you are going to execute mobile testing with or instead of web testing you should specify an APK file that will be installed on the phone available for testing, also Appium requires the name of the package and main activity of the app under test. To achieve this Kraken creates a file named *mobile.json* on the root directory where you can specify this information.
 
@@ -169,10 +167,52 @@ In case you are going to execute mobile testing with or instead of web testing y
 }
 ```
 
-## Finding your apps package and launch activity name
+### Finding your apps package and launch activity name
 
 In most cases when testing a third party app you will not have the APK's package and launch activity, that is why Kraken offers the following command that using Android's ADB will try to retrieve this information from the APK.
 
 ```bash
 npx kraken-node apk-info <APK_PATH>
 ```
+
+## 🦍 Mobile Monkey execution
+
+Kraken offers the possibility of generating random GUI events by using Android ADB monkey as well as its own implementation based in the idea of sending and reading random signals.
+
+### Android’s ADB Monkey
+
+To execute ADB monkey Kraken offers the following command specifying the number of events to be executed:
+
+```
+Then I start a monkey with (\d+) events
+```
+
+### Kraken’s own monkey
+
+Kraken extended the ADB monkey behavior by executing GUI events only in buttons and clickable views or inputs by offering the following command:
+
+```
+Then I start kraken monkey with (\d+) events
+```
+
+## XML snapshot
+
+Kraken makes it possible to save the XML presented by the current view in a specific device, this is convenient to identify view ids, asserting the correct XML is presented after an action has being completed or running static analyzing tools.
+
+### Saving the snapshot
+
+To save the snapshot of the current view, Kraken offers the following step specifying where the file is going to be saved:
+
+```
+Then I save device snapshot in file with path "([^\"]*)"
+```
+
+# 🌎 Kraken Web
+
+Kraken is extended to run also in web browsers and orchestrate the communication with other browsers running different websites or mobile applications that are being executed on physical devices or emulators. With the help of ChromeDriver/Geckodriver, selenium-webdriver and Cucumber we run test scenarios using Gherkin syntax as well as Kraken predefined signaling steps described before.
+
+### Web steps
+
+To see a list of all web steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/web.ts)
+
+
