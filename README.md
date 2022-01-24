@@ -167,6 +167,26 @@ In case you are going to execute mobile testing with or instead of web testing y
 }
 ```
 
+To run different APK files on every device you only need to change the *mobile.json* content to match the following format:
+
+```json
+{
+    "type": "multiple",
+    "@user1": {
+      "apk_path": "<APK_PATH>",
+      "apk_package": "<APK_PACKAGE>",
+      "apk_launch_activity": "<APK_LAUNCH_ACTIVITY>"
+    },
+    "@user2": {
+      "apk_path": "<APK_PATH>",
+      "apk_package": "<APK_PACKAGE>",
+      "apk_launch_activity": "<APK_LAUNCH_ACTIVITY>"
+    }
+}
+```
+
+Notice that the content of every key *@userN* where N is the ID of the user specifies the APK information that will run each user.
+
 ### Finding your apps package and launch activity name
 
 In most cases when testing a third party app you will not have the APK's package and launch activity, that is why Kraken offers the following command that using Android's ADB will try to retrieve this information from the APK.
@@ -209,10 +229,24 @@ Then I save device snapshot in file with path "([^\"]*)"
 
 # 🌎 Kraken Web
 
-Kraken is extended to run also in web browsers and orchestrate the communication with other browsers running different websites or mobile applications that are being executed on physical devices or emulators. With the help of ChromeDriver/Geckodriver, selenium-webdriver and Cucumber we run test scenarios using Gherkin syntax as well as Kraken predefined signaling steps described before.
+Kraken is extended to run also in web browsers and orchestrate the communication with other browsers running different websites or mobile applications that are being executed on physical devices or emulators. With the help of ChromeDriver/Geckodriver and Cucumber we run test scenarios using Gherkin syntax as well as Kraken predefined signaling steps described before.
 
 ### Web steps
 
 To see a list of all web steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/web.ts)
 
+## Specifying in what browser Kraken will run
 
+Kraken uses ChromeDriver and Chrome as default web browser but provides support for Firefox and Geckodriver. To specify that your test is going to be run in Firefox change the parameter passed to the WebClient class on the file located at `features/web/support/hooks.js` as shown in the snippet:
+
+```
+this.deviceClient = new WebClient('firefox', {}, this.userId);
+```
+
+## 🦍 Web Monkey execution
+
+Kraken has implemented it's own monkey behavior by executing random GUI events in buttons, clickable views and inputs by offering the following command:
+
+```
+Then I start kraken monkey with (\d+) events
+```
