@@ -281,6 +281,16 @@ Scenario: As a user
     Then I see the text "<PASSWORD>"
 ```
 
+### Specifying that your custom step uses Kraken properties
+
+If you specify new steps for web or mobile and require them to use Kraken properties functionality you should use the Cucumber property {kraken-string} instead of {string} as shown in the following snippet:
+
+```
+When('I navigate to page {kraken-string}', async function (page) {
+    return await this.driver.url(page);
+});
+```
+
 # Use fake strings in tests
 
 Kraken offers a Fake string generator thanks to the NPM package [@faker-js/faker](https://github.com/faker-js/faker), the list of supported faker types are listed as follows:
@@ -301,6 +311,16 @@ Kraken keeps a record of every Fake string generated, thats why each string will
 Scenario: As a user
     Given I wait
     Then I enter text "$name_1" into field with id "view"
+```
+
+### Specifying that your custom step uses Kraken faker
+
+If you specify new steps for web or mobile and require them to use Kraken faker functionality you should use the Cucumber property {kraken-string} instead of {string} as shown in the following snippet:
+
+```
+When('I navigate to page {kraken-string}', async function (page) {
+    return await this.driver.url(page);
+});
 ```
 
 ### Reusing a fake string
