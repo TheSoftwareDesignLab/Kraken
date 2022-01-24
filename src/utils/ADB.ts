@@ -44,7 +44,13 @@ export class ADB {
   deviceSdkVersion(deviceId: string): string {
     return execSync(
       `adb -s ${deviceId} shell getprop ro.build.version.sdk`
-    ).toString();;
+    ).toString();
+  }
+
+  saveSnapshotInFilePath(deviceId: string, filePath: string) {
+    return execSync(
+      `adb -s ${deviceId} shell cat /sdcard/window_dump.xml > ${filePath}` 
+    )
   }
 
   private extractDeviceIdFromLine(line: string) {
