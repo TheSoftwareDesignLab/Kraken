@@ -48,6 +48,7 @@ export class TestScenario {
     this.deleteSupportFilesAndDirectories();
 
     this.devices = this.sampleDevices();
+    var interval = 1000;
     this.devices.forEach((device: AndroidDevice, index: number) => {
       if (!device) { return; }
 
@@ -61,6 +62,7 @@ export class TestScenario {
   private execute() {
     this.processes.forEach((process) => {
       process.run();
+      this.pause(5000)
     });
   }
 
@@ -149,5 +151,10 @@ export class TestScenario {
         this.waitForAllProcessesToFinishOrTimeout.bind(this, startTime, resolve), 1000
       );
     }
+  }
+
+  private pause(milliseconds: number) {
+    var dt: any = new Date();
+    while ((new Date() as any) - dt <= milliseconds) {}
   }
 }

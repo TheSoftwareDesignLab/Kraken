@@ -57,9 +57,18 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
     });
   }
 
-  apkPath(): String {
-    let jsonMobileInfo = this.mobileInfoAsJSON();
-    return FileHelper.instance().pathToAbsolutePath(jsonMobileInfo.apk_path)
+  apkInfo(): any {
+    var jsonMobileInfo = this.mobileInfoAsJSON();
+    if (jsonMobileInfo.type && jsonMobileInfo.type.toLowerCase() == 'multiple') {
+      jsonMobileInfo = jsonMobileInfo[`@user${this.id}`];
+    }
+
+    return jsonMobileInfo;
+  }
+
+  apkPath(): string {
+    let info = this.apkInfo();
+    return info.apk_path;
   }
 
   private mobileInfoAsJSON(): any {
@@ -70,11 +79,11 @@ export abstract class DeviceProcess implements DeviceProcessInterface {
   private mobileInfoForProcess() {
     if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) { return; }
 
-    let jsonMobileInfo = this.mobileInfoAsJSON();
+    let info = this.apkInfo();
     return {
       apk_path: this.apkPath(),
-      apk_package: jsonMobileInfo.apk_package,
-      apk_launch_activity: jsonMobileInfo.apk_launch_activity
+      apk_package: info.apk_package,
+      apk_launch_activity: info.apk_launch_activity
     }
   }
 
