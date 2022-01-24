@@ -148,6 +148,8 @@ Writes signal content to a device inbox.
 
 To create new steps it depends the platform that is going to implement the step, in the case of Mobile testing you should add your custom steps on the ***features/mobile/step_definitions/step.js*** file. On the other hand, when adding a custom step for Web testing you should add the step in the file ***features/web/step_definitions/step.js.***
 
+Take into account that Kraken uses **Webdriverio** for executing mobile and web steps so it is necessary to follow it's syntax, you can learn more about **Webdriverio** at the following [link](https://webdriver.io/docs/selectors)
+
 # 📱Kraken Mobile
 
 ### Mobile steps
