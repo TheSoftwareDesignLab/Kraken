@@ -283,7 +283,7 @@ Scenario: As a user
 
 ### Specifying that your custom step uses Kraken properties
 
-If you specify new steps for web or mobile and require them to use Kraken properties functionality you should use the Cucumber property {kraken-string} instead of {string} as shown in the following snippet:
+If you specify new steps for web or mobile and require them to use Kraken properties functionality you should use the Cucumber property *{kraken-string}* instead of *{string}* as shown in the following snippet:
 
 ```
 When('I navigate to page {kraken-string}', async function (page) {
@@ -315,7 +315,7 @@ Scenario: As a user
 
 ### Specifying that your custom step uses Kraken faker
 
-If you specify new steps for web or mobile and require them to use Kraken faker functionality you should use the Cucumber property {kraken-string} instead of {string} as shown in the following snippet:
+If you specify new steps for web or mobile and require them to use Kraken faker functionality you should use the Cucumber property *{kraken-string}* instead of *{string}* as shown in the following snippet:
 
 ```
 When('I navigate to page {kraken-string}', async function (page) {
