@@ -10,7 +10,11 @@ export class KrakenMobile {
   constructor() {
     this.scenariosQueue = [];
     this.buildScenariosQueue();
-    this.checkIfApkIsPresentIfRequired();
+    if(this.usesMultipleApks()) {
+      this.checkIfApksArePresentIfRequired();
+    } else {
+      this.checkIfApkIsPresentIfRequired();
+    }
   }
 
   public start() {
@@ -28,20 +32,55 @@ export class KrakenMobile {
 
   private checkIfApkIsPresentIfRequired() {
     if (!this.requiresMobileInfo()) { return; }
-
     if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) {
       throw new Error(`ERROR: There is no ${Constants.MOBILE_INFO_PATH} file.`);
     }
+
     let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
     let mobileInfoJson = JSON.parse(mobileInfo);
     let apkPath = mobileInfoJson['apk_path'];
-    if(!apkPath || !FileHelper.instance().pathExists(apkPath)) {
-      throw new Error('ERROR: The specified APK path does not exist make sure the path is correct.');
+    this.checkIfApkPathExist(apkPath);
+  }
+
+  private checkIfApksArePresentIfRequired() {
+    if (!this.requiresMobileInfo()) { return; }
+    if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) {
+      throw new Error(`ERROR: There is no ${Constants.MOBILE_INFO_PATH} file.`);
     }
 
-    if(!FileHelper.instance().isValidApk(apkPath)) {
+    let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
+    let mobileInfoJson = JSON.parse(mobileInfo);
+    let jsonKeys = Object.keys(mobileInfoJson);
+    let userKeys = jsonKeys.filter(
+      (jsonKey) => { return jsonKey.startsWith('@user') }
+    );
+    var userValue = null;
+    userKeys.forEach((userKey) => {
+      userValue = mobileInfoJson[userKey];
+      this.checkIfApkPathExist(userValue['apk_path']);
+    });
+  }
+
+  private checkIfApkPathExist(apkPath: string) {
+    if (!apkPath || !FileHelper.instance().pathExists(apkPath)) {
+      throw new Error(
+        `ERROR: The specified APK path does not exist make sure the path is correct. APK path ${apkPath}`
+      );
+    }
+
+    if (!FileHelper.instance().isValidApk(apkPath)) {
       throw new Error(`ERROR: File ${apkPath} is not a valid APK.`);
     }
+  }
+
+  private usesMultipleApks(): Boolean {
+    if (!FileHelper.instance().pathExists(Constants.MOBILE_INFO_PATH)) {
+      throw new Error(`ERROR: There is no ${Constants.MOBILE_INFO_PATH} file.`);
+    }
+
+    let mobileInfo = FileHelper.instance().contentOfFile(Constants.MOBILE_INFO_PATH);
+    let mobileInfoJson = JSON.parse(mobileInfo);
+    return mobileInfoJson['type'] && mobileInfoJson['type'].toLowerCase() == 'multiple';
   }
 
   private requiresMobileInfo(): Boolean {
