@@ -185,7 +185,7 @@ To run different APK files on every device you only need to change the *mobile.j
 }
 ```
 
-Notice that the content of every key *@userN* where N is the ID of the user specifies the APK information that will run each user.
+Notice that the content of every key *@userN* where *N* is the ID of the user, specifies the APK information that will run each user.
 
 ### Finding your apps package and launch activity name
 
@@ -249,4 +249,69 @@ Kraken has implemented it's own monkey behavior by executing random GUI events i
 
 ```
 Then I start kraken monkey with (\d+) events
+```
+
+# 🗯 Extended Kraken functionalities
+
+In the following sections we provide specification for shared functionality between Kraken mobile and web as well as some examples of Kraken in action.
+
+# Properties file
+
+Kraken uses properties files to store sensitive data such as passwords or API keys that should be used in your test cases.
+
+### Generate properties file
+
+The properties files should be a manually created JSON file with the following structure and location in the root directory with the name *properties.json*
+
+```
+{
+    "PASSWORD": "test",
+    "API_KEY": "test2"
+}
+```
+
+### Use properties file in your test
+
+You can use the specified properties using the following sintax.
+
+```
+@user1
+Scenario: As a user
+    Given I wait
+    Then I see the text "<PASSWORD>"
+```
+
+# Use fake strings in tests
+
+Kraken offers a Fake string generator thanks to the Ruby gem [Faker](https://github.com/faker-ruby/faker), the list of supported faker types are listed as follows:
+
+- Name
+- Number
+- Email
+- String
+- String Date
+- URL
+
+### Use a faker in a test
+
+Kraken keeps a record of every Fake string generated, thats why each string will have an id associated. To generate a Faker string you need to follow the structure “$FAKERNAME_ID”.
+
+```
+@user1
+Scenario: As a user
+    Given I wait
+    Then I enter text "$name_1" into field with id "view"
+```
+
+### Reusing a fake string
+
+As mentioned before, Kraken keeps record of every string generated with an id given to each string, this gives you the possibility of reusing this string later in your scenario. To reuse a string you can you need to append a $ character to the fake string as follows:
+
+```
+@user1
+Scenario: As a user
+    Given I wait
+    Then I enter text "$name_1" into field with id "view"
+    Then I press "add_button"
+    Then I should see "$$name_1"
 ```
