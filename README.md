@@ -257,7 +257,7 @@ Then I start kraken monkey with (\d+) events
 
 In the following sections we provide specification for shared functionality between Kraken mobile and web as well as some examples of Kraken in action.
 
-# Properties file
+## Properties file
 
 Kraken uses properties files to store sensitive data such as passwords or API keys that should be used in your test cases.
 
@@ -293,7 +293,7 @@ When('I navigate to page {kraken-string}', async function (page) {
 });
 ```
 
-# Use fake strings in tests
+## Use fake strings in tests
 
 Kraken offers a Fake string generator thanks to the NPM package [@faker-js/faker](https://github.com/faker-js/faker), the list of supported faker types are listed as follows:
 
