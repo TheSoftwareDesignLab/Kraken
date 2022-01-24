@@ -283,7 +283,7 @@ Scenario: As a user
 
 # Use fake strings in tests
 
-Kraken offers a Fake string generator thanks to the Ruby gem [Faker](https://github.com/faker-ruby/faker), the list of supported faker types are listed as follows:
+Kraken offers a Fake string generator thanks to the NPM package [@faker-js/faker](https://github.com/faker-js/faker), the list of supported faker types are listed as follows:
 
 - Name
 - Number
