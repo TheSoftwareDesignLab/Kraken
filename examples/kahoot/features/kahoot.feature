@@ -34,25 +34,18 @@ Feature: Play game kahoot
     Scenario: My scenario 2
         Given I navigate to page "https://kahoot.com/"
         When I go to login
-        And I wait for 2 seconds
         And I enter email "<EMAIL>"
-        And I wait for 2 seconds
         And I enter password "<PASSWORD>"
-        And I wait for 2 seconds
         And I click login
-        And I wait
         And I go to test
-        And I wait
         And I click play on test
         And I select teach mode
-        And I wait
         And I select classic mode
-        And I wait
         And I send game code to user 1
-        And I wait
         And I wait for a signal containing "ready_to_start" for 120 seconds
-        And I click start
         And I send a signal to user 1 containing "game_started"
+        
+        
         And I wait for a signal containing "finished" for 120 seconds
         And I click next
         Then I wait
