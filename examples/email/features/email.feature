@@ -29,7 +29,7 @@ Feature: Send email
         And I wait
         Then I send a signal to user 2 containing "email_sent"
 
-    @user2 @web
+    @user2 @mobile
     Scenario: Snapshot scenario
         Given I navigate to login view
         And I enter email "$email"
