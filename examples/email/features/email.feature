@@ -32,15 +32,5 @@ Feature: Send email
     @user2 @web
     Scenario: My scenario 2
         Given I navigate to page "https://www.gmail.com"
-        When I wait for 2 seconds
-        And I enter email "<EMAIL_2>"
-        And I wait for 2 seconds
-        And I click next
-        And I wait for 2 seconds
-        And I enter password "<PASSWORD_2>"
-        And I wait for 2 seconds
-        And I click next
-        And I wait for a signal containing "email_sent" for 120 seconds
-        And I click refresh emails
-        And I wait
-        Then I see email sent
+        And I enter email "$email"
+        And I enter password "$string"
