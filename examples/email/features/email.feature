@@ -30,7 +30,8 @@ Feature: Send email
         Then I send a signal to user 2 containing "email_sent"
 
     @user2 @web
-    Scenario: My scenario 2
-        Given I navigate to page "https://www.gmail.com"
+    Scenario: Snapshot scenario
+        Given I navigate to login view
         And I enter email "$email"
         And I enter password "$string"
+        Then I save device snapshot in file with path "./login.xml"
