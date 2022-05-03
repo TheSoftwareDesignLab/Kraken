@@ -1,7 +1,3 @@
-<p align="center">
-    <img src="./reporter/assets/imgs/kraken.png" alt="kraken logo" width="140" height="193">
-<h1 align="center">Kraken</h1>
-
 Kraken is an open source automated android and web E2E testing tool that supports and validates scenarios that involve the inter-communication between two or more users. It works in a Black Box manner meaning that it is not required to have access to the source code of the application but instead it can be run with the APK (Android package file format) and web page URL. Kraken uses signaling for coordinating the communication between the devices using a file based protocol.
 
 **Kraken is partially supported by a Google Latin America Research Award (LARA) 2018 - 2021**
@@ -14,13 +10,13 @@ Kraken is an open source automated android and web E2E testing tool that support
 
 Kraken uses [Appium](https://appium.io/) and [WebdriverIO](https://webdriver.io/) for running automated E2E tests in each device or emulator and [Cucumber](https://github.com/cucumber/cucumber-js) for running your feature files written with Gherkin sintax.
 
-# 🔨 Installation
+# Installation
 
 ### Prerequisites
 
 - Android SDK (ADB and AAPT configured)
 - Appium
-- NodeJS (Version ≥ 12)
+- NodeJS (Version >= 12)
 - Java
 
 ### Check if all prerequisites are installed
@@ -151,7 +147,7 @@ To create new steps it depends the platform that is going to implement the step,
 
 Take into account that Kraken uses **Webdriverio** for executing mobile and web steps so it is necessary to follow it's syntax, you can learn more about **Webdriverio** at the following [link](https://webdriver.io/docs/selectors)
 
-# 📱Kraken Mobile
+# Kraken Mobile
 
 ### Mobile steps
 
@@ -198,11 +194,11 @@ In most cases when testing a third party app you will not have the APK's package
 npx kraken-node apk-info <APK_PATH>
 ```
 
-## 🦍 Mobile Monkey execution
+## Mobile Monkey execution
 
 Kraken offers the possibility of generating random GUI events by using Android ADB monkey as well as its own implementation based in the idea of sending and reading random signals.
 
-### Android’s ADB Monkey
+### Android's ADB Monkey
 
 To execute ADB monkey Kraken offers the following command specifying the number of events to be executed:
 
@@ -210,7 +206,7 @@ To execute ADB monkey Kraken offers the following command specifying the number 
 Then I start a monkey with (\d+) events
 ```
 
-### Kraken’s own monkey
+### Kraken's own monkey
 
 Kraken extended the ADB monkey behavior by executing GUI events only in buttons and clickable views or inputs by offering the following command:
 
@@ -230,13 +226,13 @@ To save the snapshot of the current view, Kraken offers the following step speci
 Then I save device snapshot in file with path "([^\"]*)"
 ```
 
-# 🌎 Kraken Web
+# Kraken Web
 
 Kraken is extended to run also in web browsers and orchestrate the communication with other browsers running different websites or mobile applications that are being executed on physical devices or emulators. With the help of ChromeDriver/Geckodriver and Cucumber we run test scenarios using Gherkin syntax as well as Kraken predefined signaling steps described before.
 
 ### Web steps
 
-To see a list of all web steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/web.ts)
+To see a list of all web steps available in Kraken, visit the following [link](https://github.com/ravelinx22/Kraken/blob/master/src/steps/web.ts)
 
 ## Specifying in what browser Kraken will run
 
@@ -246,7 +242,7 @@ Kraken uses ChromeDriver and Chrome as default web browser but provides support 
 this.deviceClient = new WebClient('firefox', {}, this.userId);
 ```
 
-## 🦍 Web Monkey execution
+## Web Monkey execution
 
 Kraken has implemented it's own monkey behavior by executing random GUI events in buttons, clickable views and inputs by offering the following command:
 
@@ -254,7 +250,7 @@ Kraken has implemented it's own monkey behavior by executing random GUI events i
 Then I start kraken monkey with (\d+) events
 ```
 
-# 🗯 Extended Kraken functionalities
+# Extended Kraken functionalities
 
 In the following sections we provide specification for shared functionality between Kraken mobile and web as well as some examples of Kraken in action.
 
@@ -307,7 +303,7 @@ Kraken offers a Fake string generator thanks to the NPM package [@faker-js/faker
 
 ### Use a faker in a test
 
-Kraken keeps a record of every Fake string generated, thats why each string will have an id associated. To generate a Faker string you need to follow the structure “$FAKERNAME_ID”.
+Kraken keeps a record of every Fake string generated, thats why each string will have an id associated. To generate a Faker string you need to follow the structure "$FAKERNAME_ID".
 
 ```
 @user1
