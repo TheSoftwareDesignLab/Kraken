@@ -14,17 +14,29 @@ export class ADB {
   }
 
   connectedDevices(): AndroidDevice[] {
-    let devices: AndroidDevice[] = [];
-    const adbDevices: string = execSync('adb devices -l').toString();
+    const devices: AndroidDevice[] = [];
+  
+    // 1) Intentamos ejecutar adb; si falla, devolvemos [] y no rompemos todo
+    let adbDevices: string;
+    try {
+      adbDevices = execSync('adb devices -l').toString();
+    } catch (err) {
+      // adb no está instalado o no está en el PATH
+      return devices;
+    }
+  
+    // 2) Si adb funcionó, procesamos la salida normal
     adbDevices.split('\n').forEach((line: string) => {
-      const id: any = this.extractDeviceIdFromLine(line);
+      const id: any    = this.extractDeviceIdFromLine(line);
       const model: any = this.extractDeviceModelFromLine(line);
-      if(!id || !model) { return; }
-
+      if (!id || !model) { return; }
       devices.push(new AndroidDevice(id, model));
     });
+  
     return devices;
   }
+  
+  
 
   deviceScreenSize(deviceId: string): number[] {
     let adbScreenSize = execSync(`adb -s ${deviceId} shell wm size`).toString();
