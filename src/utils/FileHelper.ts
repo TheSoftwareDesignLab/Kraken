@@ -69,11 +69,15 @@ export class FileHelper {
     }
   }
 
-  createFileIfDoesNotExist(path: string) {
-    if (!fs.existsSync(path)) {
-      fs.openSync(path, 'w');
+  createFileIfDoesNotExist(filePath: string) {
+    // 1) Asegurarse de que la carpeta padre existe
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
     }
-  }
+    // 2) Luego crear o abrir el fichero en modo append
+   fs.openSync(filePath, 'a');
+}
 
   contentOfFile(path: string): any {
     const contents = fs.readFileSync(path, 'utf8');
