@@ -147,7 +147,9 @@ export class Reporter {
 
     private generateDeviceReport(baseData: any, device: Device, userId: number) {
         let cucumberFile = `${Constants.REPORT_PATH}/${this.testScenario.executionId}/${device.id}/${Constants.FILE_REPORT_NAME}`;
-        let features = JSON.parse(FileHelper.instance().contentOfFile(cucumberFile));
+        var fileContent = FileHelper.instance().contentOfFile(cucumberFile);
+        if (fileContent === "") fileContent = "[]";
+        let features = JSON.parse(fileContent);
         let data = {
             apk_path: null,
             features: features,
@@ -210,6 +212,7 @@ export class Reporter {
             }
 
             let fileContent = FileHelper.instance().contentOfFile(deviceReportFilePath);
+            if (fileContent === "") fileContent = "[]";
             devicesReport[device.user] = JSON.parse(fileContent);
             devicesReport[device.user].forEach((entry: any) => {
                 if (entry.device_model == null || entry.device_model == undefined) {
