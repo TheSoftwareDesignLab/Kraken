@@ -69,9 +69,10 @@ export class FileHelper {
     }
   }
 
-  createFileIfDoesNotExist(path: string) {
-    if (!fs.existsSync(path)) {
-      fs.openSync(path, 'w');
+  createFileIfDoesNotExist(filePath: string) {
+    if (!fs.existsSync(filePath)) {
+      this.createFolderIfDoesNotExist(path.dirname(filePath));
+      fs.openSync(filePath, 'w');
     }
   }
 
